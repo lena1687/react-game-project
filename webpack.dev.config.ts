@@ -34,11 +34,12 @@ const config: Configuration = {
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "src/index.html",
+      template: "public/index.html",
+      favicon: "public/favicon.ico",
     }),
     new HotModuleReplacementPlugin(),
   ],
