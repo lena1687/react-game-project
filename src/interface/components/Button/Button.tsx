@@ -2,7 +2,7 @@ import React, { ButtonHTMLAttributes, MouseEvent } from "react";
 
 interface Props<Value extends string | number> {
   value?: Value;
-  onButtonClick: (event: MouseEvent) => void;
+  onButtonClick: (event: MouseEvent<HTMLButtonElement>) => void;
 }
 
 export function Button<Value extends string | number>({

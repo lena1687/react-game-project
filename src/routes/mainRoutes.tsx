@@ -1,6 +1,6 @@
 import { ComponentType } from "react";
 import { Main } from "../interface/pages/Main";
-import { MemoryCards } from "../interface/pages/MemoryCard";
+import { MemoryCards } from "../interface/pages/MemoryCards";
 
 interface IRoute {
   path: string;
