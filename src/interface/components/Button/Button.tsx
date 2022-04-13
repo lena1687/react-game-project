@@ -1,6 +1,6 @@
 import React, { ButtonHTMLAttributes, MouseEvent } from "react";
 import classNames from "classnames";
-import "./Button.less";
+import styles from "./Button.sass";
 
 interface Props<Value extends string | number> {
   value?: Value;
@@ -18,10 +18,11 @@ export function Button<Value extends string | number>({
   ...props
 }: Props<Value> & ButtonHTMLAttributes<HTMLButtonElement>) {
   const classes = classNames({
-    button: true,
-    "button--secondary": isSecondary,
-    [`button--size-${size}`]: true,
+    [styles.default]: true,
+    [styles.secondary]: isSecondary,
+    [styles[size]]: true,
   });
+
   return (
     <button
       type="button"

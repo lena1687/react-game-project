@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import styles from "./Select.sass";
+import classNames from "classnames";
 
 export interface SelectFieldOptions<Value> {
   text: string;
@@ -22,25 +24,37 @@ export const Select = (props: Props) => {
     await setIsOpen(false);
   };
 
+  const classesPanel = classNames({
+    [styles.panel]: true,
+    [styles.panelVisible]: isOpen,
+  });
+
   return (
-    <div className="select">
-      {topLabel && <div className="select__top-label">{topLabel}</div>}
-      <div className="select__field-wrap">
+    <div className={styles.default}>
+      {topLabel && <div className={styles.label}>{topLabel}</div>}
+      <div className={styles.wrap}>
         <div
-          className="select__field"
+          className={styles.field}
           onClick={() => {
             setIsOpen(!isOpen);
           }}
         >
           {currentValue || placeholder}
         </div>
+        <span className={styles.innerButton}>
+          <span
+            className={!isOpen ? styles.toggleButton : styles.toggleButtonOpen}
+          >
+            &nbsp;
+          </span>
+        </span>
         {isOpen && (
-          <div className="select__dropdown-panel">
+          <div className={classesPanel}>
             {options.map(({ text, value }, index) => {
               return (
                 <div
                   key={`${value}_${index}`}
-                  className="select__item"
+                  className={styles.panelItem}
                   onClick={async () => await onOptionClick(value)}
                 >
                   {text}

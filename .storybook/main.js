@@ -22,12 +22,18 @@ module.exports = {
 
     // Make whatever fine-grained changes you need
     config.module.rules.push({
-      test: /\.less$/i,
+      test: /\.s[ac]ss$/i,
       use: [
-        // compiles Less to CSS
         "style-loader",
-        "css-loader",
-        "less-loader",
+        {
+          loader: "css-loader",
+          options: {
+            modules: {
+              localIdentName: "[name]_[local]-[hash:base64:5]",
+            },
+          },
+        },
+        "sass-loader",
       ],
       include: path.resolve(__dirname, '../'),
     });
