@@ -3,7 +3,7 @@
   "description": "It is repository for studying React",
   "homepage": "https://github.com/lena1687/react-game-project",
   "author": "Elena Sedelnikova",
-  "email": "elena.sedelnikova@russianpost.ru",
+  "email": "lena1687@mail.ru",
   "version": "1.0.0",
   "repository": {
     "type": "git",
@@ -19,6 +19,7 @@
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@svgr/webpack": "6.2.1",
     "classnames": "2.3.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
@@ -40,6 +41,8 @@
     "@storybook/manager-webpack5": "6.5.0-alpha.60",
     "@storybook/react": "6.4.21",
     "@storybook/testing-library": "0.0.9",
+    "@testing-library/react": "12.1.4",
+    "@testing-library/user-event": "13.5.0",
     "@types/jest": "27.4.1",
     "@types/react": "17.0.43",
     "@types/react-dom": "17.0.9",

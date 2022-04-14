@@ -44,9 +44,7 @@ export const Select = (props: Props) => {
         <span className={styles.innerButton}>
           <span
             className={!isOpen ? styles.toggleButton : styles.toggleButtonOpen}
-          >
-            &nbsp;
-          </span>
+          />
         </span>
         {isOpen && (
           <div className={classesPanel}>
