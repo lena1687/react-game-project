@@ -1,11 +1,26 @@
-// For a detailed explanation regarding each configuration property, visit:
-// https://jestjs.io/docs/en/configuration.html
-
 module.exports = {
-  clearMocks: true,
-  coverageDirectory: "coverage",
-  testEnvironment: "node",
+  moduleFileExtensions: ["ts", "tsx", "jsx", "js"],
+  testEnvironment: "jsdom",
+  setupFilesAfterEnv: ["<rootDir>/jestSetupFile.js"],
+  moduleNameMapper: {
+    "^src(.*)$": "<rootDir>/src$1",
+    "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+      "<rootDir>/__mocks__/fileMock.js",
+    "\\.(css|less|sass|scss)$": "identity-obj-proxy",
+  },
+  transformIgnorePatterns: ["/node_modules/(?!react-file-drop)"],
   transform: {
-    "^.+\\.(js|jsx|ts|tsx)$": "<rootDir>/node_modules/babel-jest",
+    "^.+\\.(js|jsx)$": "<rootDir>/node_modules/babel-jest",
+    "\\.(ts|tsx)$": "ts-jest",
+  },
+  modulePaths: ["src"],
+  testRegex: "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js|jsx)$",
+  testPathIgnorePatterns: ["\\.snap$", "\\.sass$", "<rootDir>/node_modules/"],
+  cacheDirectory: ".jest/cache",
+  globals: {
+    "ts-jest": {
+      babel: true,
+      tsconfig: "tsconfig.json",
+    },
   },
 };

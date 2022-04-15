@@ -7,12 +7,15 @@ const homeEmail = "https://github.com/lena1687/react-game-project";
 export const Header = (): JSX.Element => {
   return (
     <header className={style.default}>
-      <div className={style.container}>
-        <a className={style.logo} href="/">
-          <Logo />
-          <div className={style.logoLabel}>Welcome to the game</div>
+      <div className={style.container} data-testid="header-container">
+        <a className={style.logo} href="/" data-testid="header-logo-block">
+          <Logo data-testid="header-logo" />
+          <div className={style.logoLabel} data-testid="header-logo-label">
+            Welcome to the game
+          </div>
         </a>
         <a
+          data-testid="header-info"
           className={style.info}
           href={homeEmail}
           target="_blank"

@@ -1,22 +1,20 @@
-import React, { ButtonHTMLAttributes, MouseEvent } from "react";
+import React, { ButtonHTMLAttributes } from "react";
 import classNames from "classnames";
 import styles from "./Button.sass";
 
-interface Props<Value extends string | number> {
-  value?: Value;
-  onButtonClick: (event: MouseEvent<HTMLButtonElement>, value?: Value) => void;
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
+  onButtonClick: () => void;
   size?: "small" | "medium" | "large";
   isSecondary?: boolean;
 }
 
-export function Button<Value extends string | number>({
+export function Button({
   children,
-  value,
   onButtonClick,
   size = "medium",
   isSecondary = false,
   ...props
-}: Props<Value> & ButtonHTMLAttributes<HTMLButtonElement>) {
+}: Props): JSX.Element {
   const classes = classNames({
     [styles.default]: true,
     [styles.secondary]: isSecondary,
@@ -27,7 +25,7 @@ export function Button<Value extends string | number>({
     <button
       type="button"
       className={classes}
-      onClick={(event) => onButtonClick(event, value)}
+      onClick={onButtonClick}
       {...props}
     >
       {children}
