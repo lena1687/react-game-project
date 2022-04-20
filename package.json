@@ -16,7 +16,8 @@
     "test": "npx jest --passWithNoTests",
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "chromatic": "npx chromatic --project-token=e93991c7410f"
   },
   "dependencies": {
     "@svgr/webpack": "6.2.1",
@@ -53,6 +54,7 @@
     "@typescript-eslint/parser": "4.5.0",
     "babel-jest": "27.5.1",
     "babel-loader": "8.2.3",
+    "chromatic": "6.5.4",
     "css-loader": "6.7.1",
     "eslint": "7.11.0",
     "eslint-config-prettier": "7.2.0",
