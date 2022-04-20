@@ -7,18 +7,15 @@
     "sourceType": "module",
     "ecmaVersion": 2020
   },
-  "plugins": [
-    "@typescript-eslint",
-    "react-hooks",
-    "jest"
-  ],
+  "plugins": ["@typescript-eslint", "react-hooks", "jest"],
   "extends": [
     "react-app",
     "react-app/jest",
     "plugin:@typescript-eslint/recommended",
     "prettier/@typescript-eslint",
     "plugin:prettier/recommended",
-    "eslint:recommended", "plugin:jest/recommended"
+    "eslint:recommended",
+    "plugin:jest/recommended"
   ],
   "rules": {
     "prettier/prettier": "error"
