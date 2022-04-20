@@ -17,7 +17,8 @@
     "prepare": "husky install",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "chromatic": "npx chromatic --project-token=e93991c7410f"
+    "chromatic": "npx chromatic --project-token=e93991c7410f",
+    "chromatic-rebuild": "npx chromatic --project-token=e93991c7410f --force-rebuild"
   },
   "dependencies": {
     "@svgr/webpack": "6.2.1",
