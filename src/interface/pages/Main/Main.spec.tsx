@@ -21,22 +21,23 @@ describe("Main", () => {
       //for searching a part phrase
       const note = getByTestId("general-info-note");
       expect(note).toHaveTextContent("Before playing");
-      screen.debug();
+      // screen.debug();
     });
 
     it("Button", () => {
       const { container, getByRole } = render(<Main />);
       getByRole("button", { name: "Continue" });
       expect(container.getElementsByClassName("options").length).toBe(0);
-      screen.debug();
+      // screen.debug();
     });
   });
   describe("actions", () => {
     it("Choose difficulty level from select", async () => {
-      const { container, getByText } = render(<Main />);
+      const { container, getByText, queryByTestId } = render(<Main />);
       await waitFor(() => {
         fireEvent.click(getByText("Continue"));
       });
+      expect(queryByTestId("button-continue")).not.toBeInTheDocument();
       expect(container.querySelector(".options")).toBeVisible();
       expect(getByText("Difficulty level")).toBeInTheDocument();
       expect(
@@ -44,7 +45,7 @@ describe("Main", () => {
       ).toEqual("Choose the difficulty level");
       expect(container.getElementsByClassName("panel").length).toBe(0);
       await waitFor(() => {
-        fireEvent.click(getByText("Choose the difficulty level"));
+        fireEvent.click(container.querySelector(".toggleButton") as Element);
       });
       expect(container.querySelector(".panel")).toBeVisible();
       const items = container.getElementsByClassName("panelItem");

@@ -33,17 +33,13 @@ export const Select = (props: Props) => {
     <div className={styles.default}>
       {topLabel && <div className={styles.label}>{topLabel}</div>}
       <div className={styles.wrap}>
-        <div
-          className={styles.field}
-          onClick={() => {
-            setIsOpen(!isOpen);
-          }}
-        >
-          {currentValue || placeholder}
-        </div>
+        <div className={styles.field}>{currentValue || placeholder}</div>
         <span className={styles.innerButton}>
           <span
             className={!isOpen ? styles.toggleButton : styles.toggleButtonOpen}
+            onClick={() => {
+              setIsOpen(!isOpen);
+            }}
           />
         </span>
         {isOpen && (

@@ -14,6 +14,6 @@ describe("Footer", () => {
     expect(getNodeText(copyright as HTMLElement)).toEqual(
       `Copyright ©${currentYear}`
     );
-    screen.debug();
+    // screen.debug();
   });
 });

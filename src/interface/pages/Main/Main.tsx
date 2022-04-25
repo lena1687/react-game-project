@@ -12,7 +12,11 @@ export const Main = (): JSX.Element => {
   return (
     <>
       <GeneralInfo heading="Hi, my friends" />
-      <Button onButtonClick={clickContinue}>Continue</Button>
+      {!isVisibleOptions && (
+        <Button data-testid="button-continue" onButtonClick={clickContinue}>
+          Continue
+        </Button>
+      )}
       {isVisibleOptions && <Options />}
     </>
   );
