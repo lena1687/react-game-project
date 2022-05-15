@@ -1,6 +1,18 @@
-@import "utils/variables"
+@import "src/assets/styles/variables"
+@import "src/assets/styles/fonts"
+
+@include font-face-roboto($rootDir:'assets')
+
+*,
+:after,
+:before
+  box-sizing: inherit
+
+html
+  box-sizing: border-box
 
 body
+  @include font-family-roboto()
   font-family: Roboto,sans-serif
   font-weight: 400
   font-size: 16px

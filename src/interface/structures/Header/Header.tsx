@@ -1,6 +1,6 @@
 import React from "react";
 import style from "./Header.sass";
-import Logo from "../../components/Icons/Logo.svg";
+import Logo from "./Logo.svg";
 
 const homeEmail = "https://github.com/lena1687/react-game-project";
 
