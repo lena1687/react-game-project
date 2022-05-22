@@ -13,7 +13,7 @@ interface Props<Value = string> {
   placeholder: string;
 }
 
-export const Select = (props: Props) => {
+export const Select: React.FunctionComponent<Props> = (props: Props) => {
   const { options = [], topLabel, placeholder } = props;
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentValue, setCurrentValue] = useState<string>();

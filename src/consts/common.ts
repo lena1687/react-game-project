@@ -1,4 +1,4 @@
-import { SelectFieldOptions } from "../interface/components/Select/Select";
+import { SelectFieldOptions } from "../interface/composites/forms/Select/Select";
 
 export const COMPLEXITY_MEMORY_CARDS: SelectFieldOptions<string>[] = [
   { text: "4", value: "4" },

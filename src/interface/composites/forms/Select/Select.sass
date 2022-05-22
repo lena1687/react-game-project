@@ -1,15 +1,12 @@
 @import "src/assets/styles/variables"
+@import "src/assets/styles/typo"
 
 .select
   position: relative
   width: 400px
 
 .label
-  font-weight: 400
-  font-size: 18px
-  line-height: 24px
-  cursor: default
-  padding: 6px
+  @include typo-label-icon-small(500)
 
 .wrap
   position: relative

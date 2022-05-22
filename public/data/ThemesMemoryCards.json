@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "text": "Animals",
+    "value": "animalTheme"
+  },
+  {
+    "id": 2,
+    "text": "Super heroes",
+    "value": "superHeroesTheme"
+  }
+]

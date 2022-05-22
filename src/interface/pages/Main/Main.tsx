@@ -13,7 +13,11 @@ export const Main = (): JSX.Element => {
     <>
       <GeneralInfo heading="Hi, my friends" />
       {!isVisibleOptions && (
-        <Button data-testid="button-continue" onButtonClick={clickContinue}>
+        <Button
+          size="large"
+          data-testid="button-continue"
+          onButtonClick={clickContinue}
+        >
           Continue
         </Button>
       )}

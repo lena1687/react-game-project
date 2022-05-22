@@ -1,5 +1,5 @@
 import React from "react";
-import { Select } from "../../../../../components/Select";
+import { Select } from "../../../../../composites/forms/Select";
 import { COMPLEXITY_MEMORY_CARDS } from "../../../../../../consts/common";
 
 export const Complexity = (): JSX.Element => {
