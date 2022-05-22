@@ -31,14 +31,41 @@ const config: Configuration = {
           },
         },
       },
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              modules: {
+                localIdentName: "[name]_[local]-[hash:base64:5]",
+              },
+            },
+          },
+          "sass-loader",
+        ],
+      },
+      {
+        test: /\.svg$/,
+        use: ["@svgr/webpack"],
+      },
+      {
+        test: /\.(woff(2)?|ttf|eot)$/,
+        type: "asset/resource",
+        generator: {
+          filename: "./fonts/[name][ext]",
+        },
+      },
     ],
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"],
+    extensions: [".js", ".jsx", ".ts", ".tsx"],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "src/index.html",
+      template: "public/index.html",
+      favicon: "public/favicon.ico",
     }),
     new HotModuleReplacementPlugin(),
   ],

@@ -1,9 +1,12 @@
-const a = 4;
-const b = 5;
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter } from "react-router-dom";
+import { App } from "./App";
+import "./index.sass";
 
-const check = (): void => {
-  console.log("Как интересно!", a + b);
-};
-check();
-
-export default check;
+ReactDOM.render(
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>,
+  document.getElementById("root")
+);

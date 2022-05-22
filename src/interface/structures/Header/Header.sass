@@ -1,0 +1,27 @@
+@import "src/assets/styles/variables"
+@import "src/assets/styles/base"
+
+.header
+  background: $white
+  border-bottom: 1px solid $black-opacity-20
+  padding-top: 17px
+  padding-bottom: 17px
+
+.container
+  @extend .default-styles-container
+  text-transform: uppercase
+
+  .logo
+    display: flex
+    align-items: center
+
+    .logoLabel
+      margin-left: 20px
+      font-size: 24px
+      font-weight: 700
+      letter-spacing: .2px
+
+  .info
+    text-align: right
+    color: $blue
+    font-weight: 600

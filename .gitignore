@@ -1,7 +1,9 @@
 # dependencies
 .idea
+.jest
 node_modules
-package-lock.json
+build-storybook.log
 
 # production
 /build
+/storybook-static/

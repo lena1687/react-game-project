@@ -1,0 +1,1 @@
+export { MemoryCards } from "./MemoryCards";

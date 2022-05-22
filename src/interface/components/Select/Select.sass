@@ -1,0 +1,109 @@
+@import "src/assets/styles/variables"
+
+.select
+  position: relative
+  width: 400px
+
+.label
+  font-weight: 400
+  font-size: 18px
+  line-height: 24px
+  cursor: default
+  padding: 6px
+
+.wrap
+  position: relative
+
+.panel
+  background: $white
+  border: 1px solid $panel-border
+  box-sizing: border-box
+  border-radius: 4px
+  display: none
+  padding-top: 4px
+  position: absolute
+  width: 100%
+  z-index: 1
+  max-height: 204px
+  overflow-x: hidden
+  overflow-y: auto
+
+.panelVisible
+  display: block
+
+.panelItem
+  padding: 4px 18px 4px 16px
+  cursor: pointer
+  &:hover
+    background-color: $black-opacity-20
+
+.innerButton
+  position: absolute
+  right: 0
+  top: 0
+  padding: 8px
+
+.toggleButton
+  position: relative
+  width: 30px
+  height: 30px
+  display: inline-block
+  cursor: pointer
+
+  &:before, &:after
+    content: ''
+    width: 14px
+    height: 3px
+    top: 11px
+    position: absolute
+    background-color: $blue
+    border-radius: 2px
+
+  &:before
+    transform: rotate(45deg)
+
+  &:after
+    left: 9px
+    transform: rotate(-45deg)
+
+  &:hover
+    &:before, &:after
+      background-color: $blue-dark
+
+  &:active
+    &:before, &:after
+      background-color: $blue-dark
+
+.toggleButtonOpen
+  @extend .toggleButton
+  &:before
+    transform: rotate(-45deg)
+
+  &:after
+    transform: rotate(45deg)
+
+
+.field
+  border-style: solid
+  outline: none
+  width: 100%
+  background-color: $white
+  border-color: $black-opacity-20
+  cursor: default
+  font-weight: 400
+  font-size: 18px
+  line-height: 28px
+  min-width: 120px
+  border-radius: 4px
+  padding: 5px 15px
+  box-sizing: border-box
+
+  &::placeholder
+    color: $text-prompt
+
+  &:hover
+    border-color: $black-opacity-40
+
+  &:focus, &:active
+    border-color: $black-opacity-40
+
