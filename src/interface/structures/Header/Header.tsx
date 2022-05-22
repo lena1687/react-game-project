@@ -6,7 +6,7 @@ const homeEmail = "https://github.com/lena1687/react-game-project";
 
 export const Header = (): JSX.Element => {
   return (
-    <header className={style.default}>
+    <header className={style.header}>
       <div className={style.container} data-testid="header-container">
         <a className={style.logo} href="/" data-testid="header-logo-block">
           <Logo data-testid="header-logo" />

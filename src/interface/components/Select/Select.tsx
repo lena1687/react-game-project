@@ -30,7 +30,7 @@ export const Select = (props: Props) => {
   });
 
   return (
-    <div className={styles.default}>
+    <div className={styles.select}>
       {topLabel && <div className={styles.label}>{topLabel}</div>}
       <div className={styles.wrap}>
         <div className={styles.field}>{currentValue || placeholder}</div>

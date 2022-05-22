@@ -6,7 +6,7 @@ import styles from "./Content.sass";
 export const Content = (): JSX.Element => {
   return (
     <main>
-      <div className={styles.default}>
+      <div className={styles.content}>
         <div className={styles.container}>
           <Switch>
             {mainRoutes.map(({ path, component }) => (

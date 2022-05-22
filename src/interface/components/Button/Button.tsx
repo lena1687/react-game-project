@@ -16,7 +16,7 @@ export function Button({
   ...props
 }: Props): JSX.Element {
   const classes = classNames({
-    [styles.default]: true,
+    [styles.button]: true,
     [styles.secondary]: isSecondary,
     [styles[size]]: true,
   });
