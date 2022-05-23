@@ -11,6 +11,10 @@
   .itemsColumn
     flex-direction: column
 
+    > * + *
+      margin-top: 5px
+      margin-left: 0
+
   .heading
     @include typo-label-icon-small(500)
 
@@ -26,6 +30,9 @@
 
   .small
     @include typo-label-icon-small
+
+    .control
+      transform: scale(0.75)
 
   input[type='radio']
     display: inline-block
