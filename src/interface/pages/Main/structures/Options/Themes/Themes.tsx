@@ -8,7 +8,7 @@ type PropsThemes = {
 };
 
 class Themes extends React.Component<any, PropsThemes> {
-  isMounted = false;
+  _isMounted = false;
   constructor(props: PropsThemes) {
     super(props);
     this.state = {
@@ -18,12 +18,12 @@ class Themes extends React.Component<any, PropsThemes> {
     };
   }
 
-  getThemes(): void {
-    fetch("./data/ThemesMemoryCards.json")
+  async getThemes(): Promise<void> {
+    await fetch("./data/ThemesMemoryCards.json")
       .then((res) => res.json())
       .then(
         (result) => {
-          if (this.isMounted) {
+          if (this._isMounted) {
             this.setState({
               error: null,
               isLoaded: true,
@@ -43,7 +43,7 @@ class Themes extends React.Component<any, PropsThemes> {
 
   componentDidMount(): void {
     console.log("componentDidMount");
-    this.isMounted = true;
+    this._isMounted = true;
     this.getThemes();
   }
 
@@ -81,8 +81,7 @@ class Themes extends React.Component<any, PropsThemes> {
 
   componentWillUnmount(): boolean {
     console.log("componentWillUnmount");
-    return (this.isMounted = false);
-    //return (this.isMounted = false);
+    return (this._isMounted = false);
   }
 
   changeThemes = (): void => {
