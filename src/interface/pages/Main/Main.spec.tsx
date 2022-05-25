@@ -56,7 +56,7 @@ describe("Main", () => {
       ).toEqual("Choose the difficulty level");
       expect(container.getElementsByClassName("panel").length).toBe(0);
       act(() => {
-        fireEvent.click(container.querySelector(".toggleButton") as Element);
+        fireEvent.click(container.querySelector(".fieldWrap") as Element);
       });
       await waitFor(() => {
         expect(container.querySelector(".panel")).toBeVisible();

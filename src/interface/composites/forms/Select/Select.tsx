@@ -33,15 +33,21 @@ export const Select: React.FunctionComponent<Props> = (props: Props) => {
     <div className={styles.select}>
       {topLabel && <div className={styles.label}>{topLabel}</div>}
       <div className={styles.wrap}>
-        <div className={styles.field}>{currentValue || placeholder}</div>
-        <span className={styles.innerButton}>
-          <span
-            className={!isOpen ? styles.toggleButton : styles.toggleButtonOpen}
-            onClick={() => {
-              setIsOpen(!isOpen);
-            }}
-          />
-        </span>
+        <div
+          className={styles.fieldWrap}
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+        >
+          <div className={styles.field}>{currentValue || placeholder}</div>
+          <span className={styles.innerButton}>
+            <span
+              className={
+                !isOpen ? styles.toggleButton : styles.toggleButtonOpen
+              }
+            />
+          </span>
+        </div>
         {isOpen && (
           <div className={classesPanel}>
             {options.map(({ text, value }, index) => {
