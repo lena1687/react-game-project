@@ -1,18 +1,18 @@
 @import "src/assets/styles/variables"
+@import "src/assets/styles/typo"
 
 .select
   position: relative
   width: 400px
 
 .label
-  font-weight: 400
-  font-size: 18px
-  line-height: 24px
-  cursor: default
-  padding: 6px
+  @include typo-label-icon-small(500)
 
 .wrap
   position: relative
+
+.fieldWrap
+  cursor: pointer
 
 .panel
   background: $white
@@ -48,7 +48,6 @@
   width: 30px
   height: 30px
   display: inline-block
-  cursor: pointer
 
   &:before, &:after
     content: ''
@@ -89,7 +88,6 @@
   width: 100%
   background-color: $white
   border-color: $black-opacity-20
-  cursor: default
   font-weight: 400
   font-size: 18px
   line-height: 28px

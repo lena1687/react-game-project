@@ -1,0 +1,93 @@
+@import "src/assets/styles/variables"
+@import "src/assets/styles/typo"
+
+.radioGroup
+  .items
+    display: flex
+
+    > * + *
+      margin-left: 30px
+
+  .itemsColumn
+    flex-direction: column
+
+    > * + *
+      margin-top: 5px
+      margin-left: 0
+
+  .heading
+    @include typo-label-icon-small(500)
+
+  .radio
+    position: relative
+    @include typo-label-icon
+    display: inline-flex
+    flex-flow: row
+    align-items: center
+    justify-content: flex-end
+    user-select: none
+    box-shadow: 0 0 0 2px transparent
+
+  .small
+    @include typo-label-icon-small
+
+    .control
+      transform: scale(0.75)
+
+  input[type='radio']
+    display: inline-block
+    opacity: 0
+    width: 0
+    height: 0
+    position: absolute
+    z-index: -1
+
+    &:checked + .control
+      border-color: $panel-border
+
+      &:after
+        background: $panel-border
+
+  .control
+    $size: 22px
+    $dot-size: 12px
+    $border-width: 2px
+    position: absolute
+    left: 0
+    top: 0
+    background: $white
+    border: $border-width solid $panel-border
+    box-sizing: border-box
+    width: $size
+    height: $size
+    margin: 2px 0 0 2px
+    padding: 0
+    border-radius: 50%
+    outline: none
+    appearance: none
+    cursor: pointer
+
+    &:before
+      content: ''
+      position: absolute
+      width: $size + $border-width * 4
+      height: $size + $border-width * 4
+      top: -$border-width * 3
+      left: -$border-width * 3
+      border: $border-width solid transparent
+
+    &:after
+      content: ''
+      position: absolute
+      top: calc((#{$size} - #{$dot-size}) /  2 - #{$border-width})
+      left: calc((#{$size} - #{$dot-size}) / 2 - #{$border-width})
+      width: $dot-size
+      height: $dot-size
+      border-radius: 50%
+      background: transparent
+
+    &:hover
+      border-color: $blue
+
+  .textLabel
+    padding-left: 32px

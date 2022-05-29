@@ -1,8 +1,14 @@
+@import "src/assets/styles/typo"
+@import "src/assets/styles/variables"
+
 .generalInfo
-  display: block
+  margin-bottom: 30px
 .heading
-  display: block
+  @include typo-h0-megaheader()
 .description
-  display: block
+  @include typo-menu-ui-big
+  margin: 10px 0 5px
 .note
-  display: block
+  color: $blue-dark
+  @include typo-menu-ui
+  font-style: italic

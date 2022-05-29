@@ -1,4 +1,5 @@
 import {
+  act,
   screen,
   render,
   getNodeText,
@@ -6,6 +7,22 @@ import {
   waitFor,
 } from "@testing-library/react";
 import { Main } from "./Main";
+import MOCK_DATA_THEMES from "../../../../public/data/ThemesMemoryCards.json";
+import { unmountComponentAtNode } from "react-dom";
+
+let container: any = null;
+beforeEach(() => {
+  // preparing DOM-element, where we'll render
+  container = document.createElement("div");
+  document.body.appendChild(container);
+});
+
+afterEach(() => {
+  // clear after completion
+  unmountComponentAtNode(container);
+  container.remove();
+  container = null;
+});
 
 describe("Main", () => {
   describe("render", () => {
@@ -32,29 +49,82 @@ describe("Main", () => {
     });
   });
   describe("actions", () => {
-    it("Choose difficulty level from select", async () => {
+    global.fetch = jest.fn(() =>
+      Promise.resolve({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve(MOCK_DATA_THEMES),
+      })
+    ) as jest.Mock;
+    it("Actions after click 'Continue'", async () => {
       const { container, getByText, queryByTestId } = render(<Main />);
+      fireEvent.click(getByText("Continue"));
       await waitFor(() => {
-        fireEvent.click(getByText("Continue"));
+        expect(queryByTestId("button-continue")).not.toBeInTheDocument();
       });
-      expect(queryByTestId("button-continue")).not.toBeInTheDocument();
       expect(container.querySelector(".options")).toBeVisible();
+
+      //select "Difficulty level"
       expect(getByText("Difficulty level")).toBeInTheDocument();
       expect(
         getNodeText(container.querySelector(".field") as HTMLElement)
       ).toEqual("Choose the difficulty level");
       expect(container.getElementsByClassName("panel").length).toBe(0);
-      await waitFor(() => {
-        fireEvent.click(container.querySelector(".toggleButton") as Element);
+      act(() => {
+        fireEvent.click(container.querySelector(".fieldWrap") as Element);
       });
-      expect(container.querySelector(".panel")).toBeVisible();
+      await waitFor(() => {
+        expect(container.querySelector(".panel")).toBeVisible();
+      });
       const items = container.getElementsByClassName("panelItem");
       expect(items).toHaveLength(9);
-      await waitFor(() => {
+      act(() => {
         fireEvent.click(getByText("6"));
       });
-      expect(container.getElementsByClassName("panel").length).toBe(0);
+      await waitFor(() => {
+        expect(container.getElementsByClassName("panel").length).toBe(0);
+      });
       screen.debug();
+
+      //RadioGroup "Choose the theme of cards"
+      expect(getByText("Choose the theme of cards")).toBeInTheDocument();
+      const radioAnimalTheme = container.querySelector(
+        'input[value="animalTheme"]'
+      ) as HTMLElement;
+      const radioSuperHeroesTheme = container.querySelector(
+        'input[value="superHeroesTheme"]'
+      ) as HTMLElement;
+      await waitFor(() => {
+        expect(radioAnimalTheme).not.toBeChecked();
+      });
+      expect(radioSuperHeroesTheme).not.toBeChecked();
+      act(() => {
+        radioAnimalTheme.focus();
+      });
+      await waitFor(() => {
+        expect(radioAnimalTheme).toHaveFocus();
+      });
+      act(() => {
+        radioAnimalTheme.click();
+      });
+      await waitFor(() => {
+        expect(radioAnimalTheme).toBeChecked();
+      });
+      expect(radioSuperHeroesTheme).not.toBeChecked();
+      act(() => {
+        radioSuperHeroesTheme.focus();
+      });
+      await waitFor(() => {
+        expect(radioSuperHeroesTheme).toHaveFocus();
+      });
+      act(() => {
+        radioSuperHeroesTheme.click();
+      });
+      await waitFor(() => {
+        expect(radioAnimalTheme).not.toBeChecked();
+      });
+      expect(radioSuperHeroesTheme).toBeChecked();
+      //screen.debug();
     });
   });
 });

@@ -1,6 +1,6 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Select } from "../interface/components/Select";
+import { Select } from "../interface/composites/forms/Select";
 import { COMPLEXITY_MEMORY_CARDS } from "../consts/common";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

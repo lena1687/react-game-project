@@ -13,7 +13,7 @@ interface Props<Value = string> {
   placeholder: string;
 }
 
-export const Select = (props: Props) => {
+export const Select: React.FunctionComponent<Props> = (props: Props) => {
   const { options = [], topLabel, placeholder } = props;
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentValue, setCurrentValue] = useState<string>();
@@ -33,15 +33,21 @@ export const Select = (props: Props) => {
     <div className={styles.select}>
       {topLabel && <div className={styles.label}>{topLabel}</div>}
       <div className={styles.wrap}>
-        <div className={styles.field}>{currentValue || placeholder}</div>
-        <span className={styles.innerButton}>
-          <span
-            className={!isOpen ? styles.toggleButton : styles.toggleButtonOpen}
-            onClick={() => {
-              setIsOpen(!isOpen);
-            }}
-          />
-        </span>
+        <div
+          className={styles.fieldWrap}
+          onClick={() => {
+            setIsOpen(!isOpen);
+          }}
+        >
+          <div className={styles.field}>{currentValue || placeholder}</div>
+          <span className={styles.innerButton}>
+            <span
+              className={
+                !isOpen ? styles.toggleButton : styles.toggleButtonOpen
+              }
+            />
+          </span>
+        </div>
         {isOpen && (
           <div className={classesPanel}>
             {options.map(({ text, value }, index) => {
