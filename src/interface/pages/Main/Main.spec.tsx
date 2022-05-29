@@ -8,6 +8,21 @@ import {
 } from "@testing-library/react";
 import { Main } from "./Main";
 import MOCK_DATA_THEMES from "../../../../public/data/ThemesMemoryCards.json";
+import { unmountComponentAtNode } from "react-dom";
+
+let container: any = null;
+beforeEach(() => {
+  // preparing DOM-element, where we'll render
+  container = document.createElement("div");
+  document.body.appendChild(container);
+});
+
+afterEach(() => {
+  // clear after completion
+  unmountComponentAtNode(container);
+  container.remove();
+  container = null;
+});
 
 describe("Main", () => {
   describe("render", () => {
@@ -36,18 +51,18 @@ describe("Main", () => {
   describe("actions", () => {
     global.fetch = jest.fn(() =>
       Promise.resolve({
+        ok: true,
+        status: 200,
         json: () => Promise.resolve(MOCK_DATA_THEMES),
       })
     ) as jest.Mock;
     it("Actions after click 'Continue'", async () => {
       const { container, getByText, queryByTestId } = render(<Main />);
-      act(() => {
-        fireEvent.click(getByText("Continue"));
-      });
+      fireEvent.click(getByText("Continue"));
       await waitFor(() => {
         expect(queryByTestId("button-continue")).not.toBeInTheDocument();
-        expect(container.querySelector(".options")).toBeVisible();
       });
+      expect(container.querySelector(".options")).toBeVisible();
 
       //select "Difficulty level"
       expect(getByText("Difficulty level")).toBeInTheDocument();
@@ -60,15 +75,16 @@ describe("Main", () => {
       });
       await waitFor(() => {
         expect(container.querySelector(".panel")).toBeVisible();
-        const items = container.getElementsByClassName("panelItem");
-        expect(items).toHaveLength(9);
       });
+      const items = container.getElementsByClassName("panelItem");
+      expect(items).toHaveLength(9);
       act(() => {
         fireEvent.click(getByText("6"));
       });
       await waitFor(() => {
         expect(container.getElementsByClassName("panel").length).toBe(0);
       });
+      screen.debug();
 
       //RadioGroup "Choose the theme of cards"
       expect(getByText("Choose the theme of cards")).toBeInTheDocument();
@@ -80,8 +96,8 @@ describe("Main", () => {
       ) as HTMLElement;
       await waitFor(() => {
         expect(radioAnimalTheme).not.toBeChecked();
-        expect(radioSuperHeroesTheme).not.toBeChecked();
       });
+      expect(radioSuperHeroesTheme).not.toBeChecked();
       act(() => {
         radioAnimalTheme.focus();
       });
@@ -93,8 +109,8 @@ describe("Main", () => {
       });
       await waitFor(() => {
         expect(radioAnimalTheme).toBeChecked();
-        expect(radioSuperHeroesTheme).not.toBeChecked();
       });
+      expect(radioSuperHeroesTheme).not.toBeChecked();
       act(() => {
         radioSuperHeroesTheme.focus();
       });
@@ -106,10 +122,9 @@ describe("Main", () => {
       });
       await waitFor(() => {
         expect(radioAnimalTheme).not.toBeChecked();
-        expect(radioSuperHeroesTheme).toBeChecked();
       });
-
-      screen.debug();
+      expect(radioSuperHeroesTheme).toBeChecked();
+      //screen.debug();
     });
   });
 });
