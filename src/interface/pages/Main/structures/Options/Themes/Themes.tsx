@@ -85,3 +85,44 @@ class Themes extends React.Component<any, PropsThemes> {
 }
 
 export default Themes;
+
+//realization with functional component
+// type ThemesDataType = { id: number; text: string; value: string }[];
+// type ThemesErrorType = Record<"message", string> | null;
+//
+// export const Themes = (): JSX.Element => {
+//   const [themes, setThemes] = useState<ThemesDataType>([]);
+//   const [isLoaded, setIsLoaded] = useState<boolean>(false);
+//   const [error, setError] = useState<ThemesErrorType>(null);
+//
+//   useEffect(() => {
+//     let _isMounted = true;
+//     setIsLoaded(true);
+//     fetch("./data/ThemesMemoryCards.json")
+//         .then((response) => {
+//           return response.ok && response.status === 200
+//               ? response.json()
+//               : setError({ message: "serverError" });
+//         })
+//         .then((data) => _isMounted && setThemes(data))
+//         .catch((error) => _isMounted && setError(error))
+//         .finally(() => _isMounted && setIsLoaded(true));
+//     return () => {
+//       _isMounted = false;
+//     };
+//   }, []);
+//
+//   return (
+//       <>
+//         {error?.message && <div>Error: {error.message}</div>}
+//         {!isLoaded && <div>Loading data</div>}
+//         {!error && isLoaded && (
+//             <RadioGroup
+//                 options={themes}
+//                 name="ThemesMemoryCards"
+//                 heading="Choose the theme of cards"
+//             />
+//         )}
+//       </>
+//   );
+// };
