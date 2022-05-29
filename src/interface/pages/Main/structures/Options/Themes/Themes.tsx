@@ -21,7 +21,6 @@ class Themes extends React.Component<any, PropsThemes> {
   async getThemes(): Promise<void> {
     await fetch("./data/ThemesMemoryCards.json")
       .then((res) => {
-        console.log(res);
         const serverError = () =>
           this.setState({
             error: { message: "serverError" },
