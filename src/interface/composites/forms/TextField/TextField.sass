@@ -2,6 +2,8 @@
 @import "src/assets/styles/typo"
 
 .textField
+  position: relative
+
   .input
     border-style: solid
     outline: none
@@ -56,7 +58,8 @@
     border-color: $red
 
 .disabled
-  cursor: not-allowed
-  background-color: $black-opacity-5
-  border-color: $black-opacity-40
-  color: $text-prompt
+  .input
+    cursor: not-allowed
+    background-color: $black-opacity-5
+    border-color: $black-opacity-40
+    color: $text-prompt

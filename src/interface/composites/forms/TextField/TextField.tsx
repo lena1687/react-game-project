@@ -26,6 +26,7 @@ export const TextField: React.FunctionComponent<Props> = (
 
   const inputClassNames = classNames({
     [styles.textField]: true,
+    [styles.disabled]: isDisabled,
     [styles.small]: sizeInput === "small",
     [styles.error]: errorText && touched,
   });
