@@ -1,22 +1,31 @@
 import React from "react";
 import classNames from "classnames";
 import styles from "./RadioGroup.sass";
+import { useField } from "formik";
 
-export interface RadioGroupOptions<Value> {
+type RadioFieldType = string | number;
+
+export interface RadioGroupOptions {
   id: number;
   text: string;
-  value: Value;
+  value: RadioFieldType;
 }
 
-interface Props<Value = string> {
-  options: RadioGroupOptions<Value>[];
+interface Props {
+  options: RadioGroupOptions[];
   heading?: string;
   name: string;
   sizeRadio?: "small" | "medium";
   direction?: "row" | "column";
+  onRadioSelect?: (value: RadioFieldType) => void;
 }
 
-export const RadioGroup: React.FunctionComponent<Props> = (props: Props) => {
+export const RadioGroup: React.FunctionComponent<Props> = (
+  props: Props & JSX.IntrinsicElements["input"]
+) => {
+  const [, meta, helpers] = useField(props);
+  const { error: errorText, touched } = meta;
+  const { setValue } = helpers;
   const {
     options,
     heading,
@@ -35,9 +44,9 @@ export const RadioGroup: React.FunctionComponent<Props> = (props: Props) => {
     [styles[sizeRadio]]: true,
   });
 
-  const onChange = async (event: any) => {
+  const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const eventValue = event.target.value;
-    console.log("-> eventValue", eventValue);
+    await setValue(eventValue);
   };
 
   return (
@@ -60,6 +69,9 @@ export const RadioGroup: React.FunctionComponent<Props> = (props: Props) => {
             </div>
           ))}
         </div>
+        {errorText && touched && (
+          <div className={styles.errorLabelBottom}>{errorText}</div>
+        )}
       </div>
     </>
   );

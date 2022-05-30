@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useField } from "formik";
 import styles from "./TextField.sass";
 import classNames from "classnames";
@@ -8,15 +8,17 @@ interface Props {
   isDisabled?: boolean;
   topLabel?: string;
   sizeInput?: "small" | "medium";
+  onChangeText?: (value: string) => void;
 }
 
 export const TextField: React.FunctionComponent<Props> = (
   props: Props & JSX.IntrinsicElements["input"]
 ) => {
-  const [field, meta] = useField(props);
-  const { value } = field;
-  const { error: errorText, touched } = meta;
-  const { isDisabled, topLabel, sizeInput = "medium" } = props;
+  const [, meta, helpers] = useField(props);
+  const { error: errorText, touched, value } = meta;
+  const { setValue } = helpers;
+  const { isDisabled, topLabel, sizeInput = "medium", onChangeText } = props;
+  const [currentInputValue, setCurrentInputValue] = useState(() => value);
 
   const inputClassNames = classNames({
     [styles.textField]: true,
@@ -24,16 +26,28 @@ export const TextField: React.FunctionComponent<Props> = (
     [styles.error]: errorText && touched,
   });
 
+  const onChangeValue = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const eventValue = event.target.value;
+    await setValue(eventValue);
+    if (onChangeText) {
+      setCurrentInputValue(onChangeText(eventValue));
+    } else setCurrentInputValue(eventValue);
+    event.preventDefault();
+  };
+
   return (
     <div className={inputClassNames}>
       {topLabel && <div className={styles.labelTop}>{topLabel}</div>}
       <div className={styles.wrap}>
-        <input className={styles.input} disabled={isDisabled} value={value} />
+        <input
+          className={styles.input}
+          disabled={isDisabled}
+          onChange={onChangeValue}
+          value={currentInputValue}
+        />
       </div>
       {errorText && touched && (
-        <div className={styles.labelBottom}>
-          <span>{errorText}</span>
-        </div>
+        <div className={styles.errorLabelBottom}>{errorText}</div>
       )}
     </div>
   );

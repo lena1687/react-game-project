@@ -3,9 +3,10 @@ import classNames from "classnames";
 import styles from "./Button.sass";
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-  onButtonClick: () => void;
+  onButtonClick?: () => void;
   size?: "small" | "medium" | "large";
   isSecondary?: boolean;
+  type?: "button" | "submit";
 }
 
 export function Button({
@@ -13,6 +14,7 @@ export function Button({
   onButtonClick,
   size = "medium",
   isSecondary = false,
+  type = "button",
   ...props
 }: Props): JSX.Element {
   const classes = classNames({
@@ -22,12 +24,7 @@ export function Button({
   });
 
   return (
-    <button
-      type="button"
-      className={classes}
-      onClick={onButtonClick}
-      {...props}
-    >
+    <button type={type} className={classes} onClick={onButtonClick} {...props}>
       {children}
     </button>
   );

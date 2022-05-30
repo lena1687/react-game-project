@@ -74,7 +74,7 @@ class Themes extends React.Component<any, PropsThemes> {
         <div>
           <RadioGroup
             options={themes}
-            name="ThemesMemoryCards"
+            name="theme"
             heading="Choose the theme of cards"
           />
         </div>
