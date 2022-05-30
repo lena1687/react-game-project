@@ -1,10 +1,11 @@
 import React from "react";
 import { RadioGroup } from "../../../../../composites/forms/RadioGroup";
+import { RadioGroupType } from "../../../../../../types/RadioGroupType";
 
 type PropsThemes = {
   error: Record<"message", string> | null;
   isLoaded: boolean;
-  themes: { id: number; text: string; value: string }[];
+  themes: RadioGroupType[];
 };
 
 class Themes extends React.Component<any, PropsThemes> {

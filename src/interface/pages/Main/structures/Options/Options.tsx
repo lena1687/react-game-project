@@ -1,7 +1,7 @@
 import React from "react";
 import Themes from "./Themes";
 import styles from "./Options.sass";
-import { Form, Formik } from "formik";
+import { Form, Formik, FormikProps } from "formik";
 import { OptionsType } from "../../../../../types/OptionsType";
 import * as Yup from "yup";
 import { COMPLEXITY_MEMORY_CARDS } from "../../../../../consts/common";
@@ -26,17 +26,22 @@ export const Options = (): JSX.Element => {
     theme: Yup.string().required("Theme is not specified").nullable(),
   });
 
-  const changeUserName = (value: string) => {
-    return value.charAt(0).toUpperCase() + value.slice(1);
+  const changeUserName = (
+    value: string,
+    setFieldValue: FormikProps<OptionsType>["setFieldValue"]
+  ) => {
+    setFieldValue("userName", value.charAt(0).toUpperCase() + value.slice(1));
   };
 
-  const initializingFormContent = () => {
+  const initializingFormContent = ({
+    setFieldValue,
+  }: FormikProps<OptionsType>) => {
     return (
       <Form className={styles.options} noValidate={true}>
         <TextField
           name="userName"
           topLabel="UserName"
-          onChangeText={changeUserName}
+          onChangeText={(value) => changeUserName(value, setFieldValue)}
         />
         <Select
           name="complexity"
@@ -53,7 +58,7 @@ export const Options = (): JSX.Element => {
   };
 
   const sendFormData = async (data: OptionsType) => {
-    console.log(data);
+    //console.log(data);
   };
 
   return (

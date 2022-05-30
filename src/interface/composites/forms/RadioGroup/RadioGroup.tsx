@@ -2,22 +2,15 @@ import React from "react";
 import classNames from "classnames";
 import styles from "./RadioGroup.sass";
 import { useField } from "formik";
-
-type RadioFieldType = string | number;
-
-export interface RadioGroupOptions {
-  id: number;
-  text: string;
-  value: RadioFieldType;
-}
+import { RadioGroupType } from "../../../../types/RadioGroupType";
 
 interface Props {
-  options: RadioGroupOptions[];
+  options: RadioGroupType[];
   heading?: string;
   name: string;
   sizeRadio?: "small" | "medium";
   direction?: "row" | "column";
-  onRadioSelect?: (value: RadioFieldType) => void;
+  onRadioSelect?: (value: string | number) => void;
 }
 
 export const RadioGroup: React.FunctionComponent<Props> = (
@@ -50,29 +43,27 @@ export const RadioGroup: React.FunctionComponent<Props> = (
   };
 
   return (
-    <>
-      <div className={styles.radioGroup}>
-        {heading && <div className={styles.heading}>{heading}</div>}
-        <div className={classesDirection}>
-          {options.map(({ id, value, text }) => (
-            <div key={id}>
-              <label className={labelClasses}>
-                <input
-                  type="radio"
-                  name={name}
-                  value={value}
-                  onChange={onChange}
-                />
-                <span className={styles.control} />
-                <span className={styles.textLabel}>{text}</span>
-              </label>
-            </div>
-          ))}
-        </div>
-        {errorText && touched && (
-          <div className={styles.errorLabelBottom}>{errorText}</div>
-        )}
+    <div className={styles.radioGroup}>
+      {heading && <div className={styles.heading}>{heading}</div>}
+      <div className={classesDirection}>
+        {options.map(({ id, value, text }) => (
+          <div key={id}>
+            <label className={labelClasses}>
+              <input
+                type="radio"
+                name={name}
+                value={value}
+                onChange={onChange}
+              />
+              <span className={styles.control} />
+              <span className={styles.textLabel}>{text}</span>
+            </label>
+          </div>
+        ))}
       </div>
-    </>
+      {errorText && touched && (
+        <div className={styles.errorLabelBottom}>{errorText}</div>
+      )}
+    </div>
   );
 };

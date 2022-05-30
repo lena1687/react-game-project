@@ -14,11 +14,15 @@ interface Props {
 export const TextField: React.FunctionComponent<Props> = (
   props: Props & JSX.IntrinsicElements["input"]
 ) => {
-  const [, meta, helpers] = useField(props);
+  const [, meta] = useField(props);
   const { error: errorText, touched, value } = meta;
-  const { setValue } = helpers;
-  const { isDisabled, topLabel, sizeInput = "medium", onChangeText } = props;
-  const [currentInputValue, setCurrentInputValue] = useState(() => value);
+  const {
+    name,
+    isDisabled,
+    topLabel,
+    sizeInput = "medium",
+    onChangeText,
+  } = props;
 
   const inputClassNames = classNames({
     [styles.textField]: true,
@@ -26,24 +30,16 @@ export const TextField: React.FunctionComponent<Props> = (
     [styles.error]: errorText && touched,
   });
 
-  const onChangeValue = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const eventValue = event.target.value;
-    await setValue(eventValue);
-    if (onChangeText) {
-      setCurrentInputValue(onChangeText(eventValue));
-    } else setCurrentInputValue(eventValue);
-    event.preventDefault();
-  };
-
   return (
     <div className={inputClassNames}>
       {topLabel && <div className={styles.labelTop}>{topLabel}</div>}
       <div className={styles.wrap}>
         <input
+          name={name}
+          value={value}
           className={styles.input}
           disabled={isDisabled}
-          onChange={onChangeValue}
-          value={currentInputValue}
+          onChange={(event) => onChangeText && onChangeText(event.target.value)}
         />
       </div>
       {errorText && touched && (
