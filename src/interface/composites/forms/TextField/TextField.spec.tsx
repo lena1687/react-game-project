@@ -1,8 +1,7 @@
-import { act, render, waitFor } from "@testing-library/react";
+import { act, fireEvent, render, waitFor } from "@testing-library/react";
 import { Form, Formik, FormikProps } from "formik";
 import { TextField } from "./TextField";
 import React from "react";
-import { fireEvent } from "@storybook/testing-library";
 import { Button } from "../../../components/Button";
 import { OptionsType } from "../../../../types/OptionsType";
 

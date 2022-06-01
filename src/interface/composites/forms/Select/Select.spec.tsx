@@ -19,7 +19,7 @@ const SELECT_OPTIONS: SelectFieldOptions[] = [
   { text: "Значение 7", value: "option-7" },
   { text: "Значение 8", value: "option-8" },
   { text: "Значение 9", value: "option-9" },
-  { text: "Значение 1", value: "option-10" },
+  { text: "Значение 10", value: "option-10" },
 ];
 
 describe("Select", () => {

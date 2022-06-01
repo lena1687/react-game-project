@@ -138,6 +138,6 @@ describe("Options", () => {
     await waitFor(() => {
       expect(error).not.toBeInTheDocument();
     });
-    screen.debug();
+    // screen.debug();
   });
 });

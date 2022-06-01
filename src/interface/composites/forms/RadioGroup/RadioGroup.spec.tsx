@@ -56,38 +56,38 @@ describe("RadioGroup", () => {
     await waitFor(() => {
       expect(getByText("Choose the option")).toBeInTheDocument();
     });
-    const radioValue_1 = container.querySelector(
+    const radioValueOne = container.querySelector(
       'input[value="value_1"]'
     ) as HTMLElement;
-    const radioValue_2 = container.querySelector(
+    const radioValueTwo = container.querySelector(
       'input[value="value_2"]'
     ) as HTMLElement;
     await waitFor(() => {
-      expect(radioValue_1).not.toBeChecked();
+      expect(radioValueOne).not.toBeChecked();
     });
-    expect(radioValue_2).not.toBeChecked();
+    expect(radioValueTwo).not.toBeChecked();
     act(() => {
-      radioValue_1.focus();
+      radioValueOne.focus();
     });
     await waitFor(() => {
-      expect(radioValue_1).toHaveFocus();
+      expect(radioValueOne).toHaveFocus();
     });
-    fireEvent.click(radioValue_1);
+    fireEvent.click(radioValueOne);
     await waitFor(() => {
-      expect(radioValue_1).toBeChecked();
+      expect(radioValueOne).toBeChecked();
     });
-    expect(radioValue_2).not.toBeChecked();
+    expect(radioValueTwo).not.toBeChecked();
     act(() => {
-      radioValue_2.focus();
+      radioValueTwo.focus();
     });
     await waitFor(() => {
-      expect(radioValue_2).toHaveFocus();
+      expect(radioValueTwo).toHaveFocus();
     });
-    fireEvent.click(radioValue_2);
+    fireEvent.click(radioValueTwo);
     await waitFor(() => {
-      expect(radioValue_1).not.toBeChecked();
+      expect(radioValueOne).not.toBeChecked();
     });
-    expect(radioValue_2).toBeChecked();
+    expect(radioValueTwo).toBeChecked();
     fireEvent.click(getByText("Save"));
     await waitFor(() => {
       expect(onSubmit).toBeCalledTimes(1);
