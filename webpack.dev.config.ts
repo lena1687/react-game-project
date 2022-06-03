@@ -69,7 +69,7 @@ const config: Configuration = {
     }),
     new HotModuleReplacementPlugin(),
   ],
-  devtool: false,
+  devtool: "inline-source-map",
   devServer: {
     historyApiFallback: true,
     port: 4000,
