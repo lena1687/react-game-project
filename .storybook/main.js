@@ -8,6 +8,9 @@ module.exports = {
     "@storybook/addon-interactions",
     "storybook-formik/register",
   ],
+  features: {
+    storyStoreV7: true,
+  },
   framework: "@storybook/react",
   core: {
     builder: "webpack5",
