@@ -5,7 +5,7 @@ import { App } from "./App";
 import "./index.sass";
 
 ReactDOM.render(
-  <BrowserRouter basename={process.env.PUBLIC_URL}>
+  <BrowserRouter basename="/">
     <App />
   </BrowserRouter>,
   document.getElementById("root")
