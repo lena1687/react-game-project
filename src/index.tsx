@@ -5,7 +5,7 @@ import { App } from "./App";
 import "./index.sass";
 
 ReactDOM.render(
-  <BrowserRouter basename="/">
+  <BrowserRouter basename={window.location.pathname || ""}>
     <App />
   </BrowserRouter>,
   document.getElementById("root")

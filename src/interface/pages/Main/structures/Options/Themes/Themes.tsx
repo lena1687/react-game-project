@@ -1,6 +1,7 @@
 import React from "react";
 import { RadioGroup } from "../../../../../composites/forms/RadioGroup";
 import { RadioGroupType } from "../../../../../../types/RadioGroupType";
+import "../../../../../../assets/data/themesMemoryCards.json";
 
 type PropsThemes = {
   error: Record<"message", string> | null;
@@ -20,7 +21,7 @@ class Themes extends React.Component<any, PropsThemes> {
   }
 
   async getThemes(): Promise<void> {
-    await fetch("./data/ThemesMemoryCards.json")
+    await fetch("./data/themesMemoryCards.json")
       .then((res) => {
         const serverError = () =>
           this.setState({
@@ -98,7 +99,7 @@ export default Themes;
 //   useEffect(() => {
 //     let _isMounted = true;
 //     setIsLoaded(true);
-//     fetch("./data/ThemesMemoryCards.json")
+//     fetch("./data/themesMemoryCards.json")
 //         .then((response) => {
 //           return response.ok && response.status === 200
 //               ? response.json()

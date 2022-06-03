@@ -1,10 +1,9 @@
-import MOCK_DATA_THEMES from "../../../../../../public/data/ThemesMemoryCards.json";
+import MOCK_DATA_THEMES from "../../../../../assets/data/themesMemoryCards.json";
 import {
   act,
   fireEvent,
   getNodeText,
   render,
-  screen,
   waitFor,
 } from "@testing-library/react";
 import { Options } from "./Options";
