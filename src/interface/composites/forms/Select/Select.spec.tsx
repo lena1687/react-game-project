@@ -59,26 +59,22 @@ describe("Select", () => {
         )}
       </Formik>
     );
-    await waitFor(() => {
-      expect(getByText("Choose the option")).toBeInTheDocument();
-    });
+    expect(getByText("Choose the option")).toBeInTheDocument();
     expect(
       getNodeText(container.querySelector(".field") as HTMLElement)
     ).toEqual("Choose the option");
     expect(container.getElementsByClassName("panel").length).toBe(0);
     fireEvent.click(container.querySelector(".fieldWrap") as Element);
-    await waitFor(() => {
-      expect(container.querySelector(".panel")).toBeVisible();
-    });
+    expect(container.querySelector(".panel")).toBeVisible();
     const items = container.getElementsByClassName("panelItem");
     expect(items).toHaveLength(10);
     fireEvent.click(getByText("Значение 3"));
+    expect(
+      getNodeText(container.querySelector(".field") as HTMLElement)
+    ).toEqual("option-3");
     await waitFor(() => {
-      expect(
-        getNodeText(container.querySelector(".field") as HTMLElement)
-      ).toEqual("option-3");
+      expect(container.getElementsByClassName("panel").length).toBe(0);
     });
-    expect(container.getElementsByClassName("panel").length).toBe(0);
     fireEvent.click(getByText("Save"));
     await waitFor(() => {
       expect(onSubmit).toBeCalledTimes(1);

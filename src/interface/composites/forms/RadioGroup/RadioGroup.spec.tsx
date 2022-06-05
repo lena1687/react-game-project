@@ -1,6 +1,6 @@
 import { RadioGroup } from "./RadioGroup";
 import React from "react";
-import { fireEvent, waitFor, act, render } from "@testing-library/react";
+import { fireEvent, waitFor, render } from "@testing-library/react";
 import { RadioGroupType } from "../../../../types/RadioGroupType";
 import { Form, Formik } from "formik";
 import { Button } from "../../../components/Button";
@@ -53,40 +53,24 @@ describe("RadioGroup", () => {
         )}
       </Formik>
     );
-    await waitFor(() => {
-      expect(getByText("Choose the option")).toBeInTheDocument();
-    });
+    expect(getByText("Choose the option")).toBeInTheDocument();
     const radioValueOne = container.querySelector(
       'input[value="value_1"]'
     ) as HTMLElement;
     const radioValueTwo = container.querySelector(
       'input[value="value_2"]'
     ) as HTMLElement;
-    await waitFor(() => {
-      expect(radioValueOne).not.toBeChecked();
-    });
+    expect(radioValueOne).not.toBeChecked();
     expect(radioValueTwo).not.toBeChecked();
-    act(() => {
-      radioValueOne.focus();
-    });
-    await waitFor(() => {
-      expect(radioValueOne).toHaveFocus();
-    });
+    radioValueOne.focus();
+    expect(radioValueOne).toHaveFocus();
     fireEvent.click(radioValueOne);
-    await waitFor(() => {
-      expect(radioValueOne).toBeChecked();
-    });
+    expect(radioValueOne).toBeChecked();
     expect(radioValueTwo).not.toBeChecked();
-    act(() => {
-      radioValueTwo.focus();
-    });
-    await waitFor(() => {
-      expect(radioValueTwo).toHaveFocus();
-    });
+    radioValueTwo.focus();
+    expect(radioValueTwo).toHaveFocus();
     fireEvent.click(radioValueTwo);
-    await waitFor(() => {
-      expect(radioValueOne).not.toBeChecked();
-    });
+    expect(radioValueOne).not.toBeChecked();
     expect(radioValueTwo).toBeChecked();
     fireEvent.click(getByText("Save"));
     await waitFor(() => {

@@ -28,7 +28,7 @@ export const Select: React.FunctionComponent<Props> = (props: Props) => {
     await setCurrentValue(value);
     await setValue(value);
     await setIsOpen(false);
-    onOptionSelect && (await onOptionSelect(value));
+    onOptionSelect && onOptionSelect(value);
   };
 
   const classesPanel = classNames({

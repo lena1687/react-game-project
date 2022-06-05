@@ -1,6 +1,5 @@
 import MOCK_DATA_THEMES from "../../../../../assets/data/themesMemoryCards.json";
 import {
-  act,
   fireEvent,
   getNodeText,
   render,
@@ -18,9 +17,7 @@ describe("Options", () => {
   it("options after click 'Continue'", async () => {
     const { container, getByText, queryByTestId } = render(<Main />);
     fireEvent.click(getByText("Continue"));
-    await waitFor(() => {
-      expect(queryByTestId("button-continue")).not.toBeInTheDocument();
-    });
+    expect(queryByTestId("button-continue")).not.toBeInTheDocument();
     expect(container.querySelector(".options")).toBeVisible();
   });
 
@@ -51,39 +48,27 @@ describe("Options", () => {
     );
 
     //select "UserName"
-    await waitFor(() => {
-      expect(getByText("UserName")).toBeInTheDocument();
-    });
+    expect(getByText("UserName")).toBeInTheDocument();
     const input = container.querySelector(
       "input[name='userName']"
     ) as HTMLElement;
-    act(() => {
-      input.focus();
-    });
+    input.focus();
     fireEvent.change(input, { target: { value: "result" } });
-    await waitFor(() => {
-      expect(input?.getAttribute("value")).toEqual("Result");
-    });
+    expect(input?.getAttribute("value")).toEqual("Result");
 
     //select "Difficulty level"
-    await waitFor(() => {
-      expect(getByText("Difficulty level")).toBeInTheDocument();
-    });
+    expect(getByText("Difficulty level")).toBeInTheDocument();
     expect(
       getNodeText(container.querySelector(".field") as HTMLElement)
     ).toEqual("Choose the difficulty level");
     expect(container.getElementsByClassName("panel").length).toBe(0);
-    act(() => {
-      fireEvent.click(container.querySelector(".fieldWrap") as Element);
-    });
+    fireEvent.click(container.querySelector(".fieldWrap") as Element);
     await waitFor(() => {
       expect(container.querySelector(".panel")).toBeVisible();
     });
     const items = container.getElementsByClassName("panelItem");
     expect(items).toHaveLength(9);
-    act(() => {
-      fireEvent.click(getByText("6"));
-    });
+    fireEvent.click(getByText("6"));
     await waitFor(() => {
       expect(container.getElementsByClassName("panel").length).toBe(0);
     });
@@ -96,47 +81,28 @@ describe("Options", () => {
     const radioSuperHeroesTheme = container.querySelector(
       'input[value="superHeroesTheme"]'
     ) as HTMLElement;
-    await waitFor(() => {
-      expect(radioAnimalTheme).not.toBeChecked();
-    });
+    expect(radioAnimalTheme).not.toBeChecked();
     expect(radioSuperHeroesTheme).not.toBeChecked();
-    act(() => {
-      radioAnimalTheme.focus();
-    });
-    await waitFor(() => {
-      expect(radioAnimalTheme).toHaveFocus();
-    });
-    act(() => {
-      radioAnimalTheme.click();
-    });
-    await waitFor(() => {
-      expect(radioAnimalTheme).toBeChecked();
-    });
+    radioAnimalTheme.focus();
+    expect(radioAnimalTheme).toHaveFocus();
+    radioAnimalTheme.click();
+    expect(radioAnimalTheme).toBeChecked();
     expect(radioSuperHeroesTheme).not.toBeChecked();
-    act(() => {
-      radioSuperHeroesTheme.focus();
-    });
-    await waitFor(() => {
-      expect(radioSuperHeroesTheme).toHaveFocus();
-    });
-    act(() => {
-      radioSuperHeroesTheme.click();
-    });
-    await waitFor(() => {
-      expect(radioAnimalTheme).not.toBeChecked();
-    });
+    radioSuperHeroesTheme.focus();
+    expect(radioSuperHeroesTheme).toHaveFocus();
+    radioSuperHeroesTheme.click();
+    expect(radioAnimalTheme).not.toBeChecked();
     expect(radioSuperHeroesTheme).toBeChecked();
     //screen.debug();
 
     //Click "Let's go"
-    await waitFor(() => {
-      expect(getByText("Let's go")).toBeInTheDocument();
-    });
+    expect(getByText("Let's go")).toBeInTheDocument();
     fireEvent.click(getByText("Let's go"));
     const error = container.querySelector(".errorLabelBottom") as HTMLElement;
     await waitFor(() => {
       expect(error).not.toBeInTheDocument();
     });
+
     // screen.debug();
   });
 });

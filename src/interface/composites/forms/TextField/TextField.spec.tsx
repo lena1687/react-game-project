@@ -1,4 +1,4 @@
-import { act, fireEvent, render, waitFor } from "@testing-library/react";
+import { fireEvent, render, waitFor } from "@testing-library/react";
 import { Form, Formik, FormikProps } from "formik";
 import { TextField } from "./TextField";
 import React from "react";
@@ -42,19 +42,13 @@ describe("TextField", () => {
         )}
       </Formik>
     );
-    await waitFor(() => {
-      expect(getByText("Entry data")).toBeInTheDocument();
-    });
+    expect(getByText("Entry data")).toBeInTheDocument();
     const input = container.querySelector("input[name='field']") as HTMLElement;
-    act(() => {
-      input.focus();
-    });
+    input.focus();
     fireEvent.change(input, {
       target: { value: "result" },
     });
-    await waitFor(() => {
-      expect(input?.getAttribute("value")).toBe("Result");
-    });
+    expect(input?.getAttribute("value")).toBe("Result");
     fireEvent.click(getByText("Save"));
     await waitFor(() => {
       expect(onSubmit).toBeCalledTimes(1);

@@ -37,9 +37,9 @@ export const RadioGroup: React.FunctionComponent<Props> = (
     [styles[sizeRadio]]: true,
   });
 
-  const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const eventValue = event.target.value;
-    await setValue(eventValue);
+    setValue(eventValue);
   };
 
   return (
