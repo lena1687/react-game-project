@@ -1,35 +1,84 @@
-import { Select } from "./Select";
-import { COMPLEXITY_MEMORY_CARDS } from "../../../../consts/common";
+import { Select, SelectFieldOptions } from "./Select";
 import React from "react";
-import { getNodeText, render, screen } from "@testing-library/react";
-import { fireEvent, waitFor } from "@storybook/testing-library";
+import {
+  getNodeText,
+  render,
+  fireEvent,
+  waitFor,
+} from "@testing-library/react";
+import { Form, Formik } from "formik";
+import { Button } from "../../../components/Button";
+
+const SELECT_OPTIONS: SelectFieldOptions[] = [
+  { text: "Значение 1", value: "option-1" },
+  { text: "Значение 2", value: "option-2" },
+  { text: "Значение 3", value: "option-3" },
+  { text: "Значение 4", value: "option-4" },
+  { text: "Значение 5", value: "option-5" },
+  { text: "Значение 6", value: "option-6" },
+  { text: "Значение 7", value: "option-7" },
+  { text: "Значение 8", value: "option-8" },
+  { text: "Значение 9", value: "option-9" },
+  { text: "Значение 10", value: "option-10" },
+];
 
 describe("Select", () => {
-  it("Choose value", async () => {
-    const { container } = render(
-      <Select
-        options={COMPLEXITY_MEMORY_CARDS}
-        topLabel="Difficulty level"
-        placeholder="Choose the difficulty level"
-      />
+  it("render without errors", () => {
+    const onSubmit = jest.fn();
+    render(
+      <Formik initialValues={{ field: undefined }} onSubmit={onSubmit}>
+        {() => (
+          <Form>
+            <Select
+              name="field"
+              options={SELECT_OPTIONS}
+              topLabel="Label"
+              placeholder="Choose the option"
+            />
+            <Button type="submit">Save</Button>
+          </Form>
+        )}
+      </Formik>
     );
-    expect(screen.getByText("Difficulty level")).toBeInTheDocument();
+  });
+
+  it("select value and send form", async () => {
+    const onSubmit = jest.fn();
+    const { container, getByText } = render(
+      <Formik initialValues={{ field: undefined }} onSubmit={onSubmit}>
+        {() => (
+          <Form>
+            <Select
+              name="field"
+              options={SELECT_OPTIONS}
+              topLabel="Label"
+              placeholder="Choose the option"
+            />
+            <Button type="submit">Save</Button>
+          </Form>
+        )}
+      </Formik>
+    );
+    expect(getByText("Choose the option")).toBeInTheDocument();
     expect(
       getNodeText(container.querySelector(".field") as HTMLElement)
-    ).toEqual("Choose the difficulty level");
+    ).toEqual("Choose the option");
     expect(container.getElementsByClassName("panel").length).toBe(0);
     fireEvent.click(container.querySelector(".fieldWrap") as Element);
-    await waitFor(() => {
-      expect(container.querySelector(".panel")).toBeVisible();
-    });
+    expect(container.querySelector(".panel")).toBeVisible();
     const items = container.getElementsByClassName("panelItem");
-    expect(items).toHaveLength(9);
-    fireEvent.click(screen.getByText("6"));
+    expect(items).toHaveLength(10);
+    fireEvent.click(getByText("Значение 3"));
+    expect(
+      getNodeText(container.querySelector(".field") as HTMLElement)
+    ).toEqual("option-3");
     await waitFor(() => {
-      expect(
-        getNodeText(container.querySelector(".field") as HTMLElement)
-      ).toEqual("6");
+      expect(container.getElementsByClassName("panel").length).toBe(0);
     });
-    expect(container.getElementsByClassName("panel").length).toBe(0);
+    fireEvent.click(getByText("Save"));
+    await waitFor(() => {
+      expect(onSubmit).toBeCalledTimes(1);
+    });
+    expect(onSubmit.mock.calls[0][0]).toStrictEqual({ field: "option-3" });
   });
 });

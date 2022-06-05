@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { GeneralInfo } from "./structures/GeneralInfo";
 import { Button } from "../../components/Button";
-import Options from "./structures/Options";
+import { Options } from "./structures/Options";
 
 export const Main = (): JSX.Element => {
   const [isVisibleOptions, setIsVisibleOptions] = useState(false);

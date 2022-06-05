@@ -1,56 +1,81 @@
 import { RadioGroup } from "./RadioGroup";
 import React from "react";
-import MOCK_DATA_THEMES from "../../../../../public/data/ThemesMemoryCards.json";
-import {
-  act,
-  render,
-  waitFor,
-  screen,
-  fireEvent,
-} from "@testing-library/react";
+import { fireEvent, waitFor, render } from "@testing-library/react";
+import { RadioGroupType } from "../../../../types/RadioGroupType";
+import { Form, Formik } from "formik";
+import { Button } from "../../../components/Button";
+
+const RADIO_GROUP_OPTIONS: RadioGroupType[] = [
+  {
+    id: 1,
+    text: "Text 1",
+    value: "value_1",
+  },
+  {
+    id: 2,
+    text: "Text 2",
+    value: "value_2",
+  },
+];
 
 describe("RadioGroup", () => {
-  it("Choose value", async () => {
-    const { container } = render(
-      <RadioGroup
-        options={MOCK_DATA_THEMES}
-        name="ThemesMemoryCards"
-        heading="Choose the theme of cards"
-      />
+  it("render without errors", () => {
+    const onSubmit = jest.fn();
+    render(
+      <Formik initialValues={{ field: undefined }} onSubmit={onSubmit}>
+        {() => (
+          <Form>
+            <RadioGroup
+              options={RADIO_GROUP_OPTIONS}
+              name="field"
+              heading="Choose the option"
+            />
+            <Button type="submit">Save</Button>
+          </Form>
+        )}
+      </Formik>
     );
+  });
 
-    expect(screen.getByText("Choose the theme of cards")).toBeInTheDocument();
-    const radioAnimalTheme = container.querySelector(
-      'input[value="animalTheme"]'
+  it("choose value", async () => {
+    const onSubmit = jest.fn();
+    const { container, getByText } = render(
+      <Formik initialValues={{ field: undefined }} onSubmit={onSubmit}>
+        {() => (
+          <Form>
+            <RadioGroup
+              options={RADIO_GROUP_OPTIONS}
+              name="field"
+              heading="Choose the option"
+            />
+            <Button type="submit">Save</Button>
+          </Form>
+        )}
+      </Formik>
+    );
+    expect(getByText("Choose the option")).toBeInTheDocument();
+    const radioValueOne = container.querySelector(
+      'input[value="value_1"]'
     ) as HTMLElement;
-    const radioSuperHeroesTheme = container.querySelector(
-      'input[value="superHeroesTheme"]'
+    const radioValueTwo = container.querySelector(
+      'input[value="value_2"]'
     ) as HTMLElement;
+    expect(radioValueOne).not.toBeChecked();
+    expect(radioValueTwo).not.toBeChecked();
+    radioValueOne.focus();
+    expect(radioValueOne).toHaveFocus();
+    fireEvent.click(radioValueOne);
+    expect(radioValueOne).toBeChecked();
+    expect(radioValueTwo).not.toBeChecked();
+    radioValueTwo.focus();
+    expect(radioValueTwo).toHaveFocus();
+    fireEvent.click(radioValueTwo);
+    expect(radioValueOne).not.toBeChecked();
+    expect(radioValueTwo).toBeChecked();
+    fireEvent.click(getByText("Save"));
     await waitFor(() => {
-      expect(radioAnimalTheme).not.toBeChecked();
+      expect(onSubmit).toBeCalledTimes(1);
     });
-    expect(radioSuperHeroesTheme).not.toBeChecked();
-    act(() => {
-      radioAnimalTheme.focus();
-    });
-    await waitFor(() => {
-      expect(radioAnimalTheme).toHaveFocus();
-    });
-    fireEvent.click(radioAnimalTheme);
-    await waitFor(() => {
-      expect(radioAnimalTheme).toBeChecked();
-    });
-    expect(radioSuperHeroesTheme).not.toBeChecked();
-    act(() => {
-      radioSuperHeroesTheme.focus();
-    });
-    await waitFor(() => {
-      expect(radioSuperHeroesTheme).toHaveFocus();
-    });
-    fireEvent.click(radioSuperHeroesTheme);
-    await waitFor(() => {
-      expect(radioAnimalTheme).not.toBeChecked();
-    });
-    expect(radioSuperHeroesTheme).toBeChecked();
+    expect(onSubmit.mock.calls[0][0]).toStrictEqual({ field: "value_2" });
   });
 });

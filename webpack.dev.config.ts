@@ -4,17 +4,19 @@ import {
 } from "webpack";
 import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
 import HtmlWebpackPlugin from "html-webpack-plugin";
+import path = require("path");
 
 interface Configuration extends WebpackConfiguration {
   devServer?: WebpackDevServerConfiguration;
 }
 
 const config: Configuration = {
+  entry: "./src/index.tsx",
   mode: "development",
   output: {
-    publicPath: "/",
+    filename: "bundle.js",
+    path: path.resolve(__dirname, "build"),
   },
-  entry: "./src/index.tsx",
   module: {
     rules: [
       {
@@ -55,6 +57,13 @@ const config: Configuration = {
         type: "asset/resource",
         generator: {
           filename: "./fonts/[name][ext]",
+        },
+      },
+      {
+        test: /\.json$/,
+        type: "asset/resource",
+        generator: {
+          filename: "./data/[name][ext]",
         },
       },
     ],

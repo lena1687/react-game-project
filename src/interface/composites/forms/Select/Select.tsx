@@ -1,27 +1,34 @@
 import React, { useState } from "react";
 import styles from "./Select.sass";
 import classNames from "classnames";
+import { useField } from "formik";
 
-export interface SelectFieldOptions<Value> {
+export interface SelectFieldOptions {
   text: string;
-  value: Value;
+  value: string | number;
 }
 
-interface Props<Value = string> {
-  options: SelectFieldOptions<Value>[];
+interface Props {
+  name: string;
+  options: SelectFieldOptions[];
   topLabel?: React.ReactNode;
   placeholder: string;
+  onOptionSelect?: (value: string | number) => void;
 }
 
 export const Select: React.FunctionComponent<Props> = (props: Props) => {
-  const { options = [], topLabel, placeholder } = props;
+  const [, meta, helpers] = useField(props);
+  const { error: errorText, touched } = meta;
+  const { setValue } = helpers;
+  const { options = [], topLabel, placeholder, onOptionSelect } = props;
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [currentValue, setCurrentValue] = useState<string>();
+  const [currentValue, setCurrentValue] = useState<string | number>();
 
-  const onOptionClick = async (value: string) => {
-    console.log("-> value", value);
+  const onOptionClick = async (value: string | number) => {
     await setCurrentValue(value);
+    await setValue(value);
     await setIsOpen(false);
+    onOptionSelect && onOptionSelect(value);
   };
 
   const classesPanel = classNames({
@@ -30,7 +37,12 @@ export const Select: React.FunctionComponent<Props> = (props: Props) => {
   });
 
   return (
-    <div className={styles.select}>
+    <div
+      className={classNames({
+        [styles.select]: true,
+        [styles.error]: errorText && touched,
+      })}
+    >
       {topLabel && <div className={styles.label}>{topLabel}</div>}
       <div className={styles.wrap}>
         <div
@@ -50,10 +62,10 @@ export const Select: React.FunctionComponent<Props> = (props: Props) => {
         </div>
         {isOpen && (
           <div className={classesPanel}>
-            {options.map(({ text, value }, index) => {
+            {options.map(({ text, value }) => {
               return (
                 <div
-                  key={`${value}_${index}`}
+                  key={`${value}`}
                   className={styles.panelItem}
                   onClick={async () => await onOptionClick(value)}
                 >
@@ -64,6 +76,9 @@ export const Select: React.FunctionComponent<Props> = (props: Props) => {
           </div>
         )}
       </div>
+      {errorText && touched && (
+        <div className={styles.errorLabelBottom}>{errorText}</div>
+      )}
     </div>
   );
 };

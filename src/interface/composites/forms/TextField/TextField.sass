@@ -1,0 +1,65 @@
+@import "src/assets/styles/variables"
+@import "src/assets/styles/typo"
+
+.textField
+  position: relative
+
+  .input
+    border-style: solid
+    outline: none
+    width: 500px
+    background-color: $white
+    border-color: $black-opacity-20
+    $border-width: 1px
+    $height: 42px
+    $line-height: 28px
+    min-width: 120px
+    height: $height
+    border-radius: 4px
+    border-width: 1px
+    padding: calc((#{$height} - #{$line-height} - #{$border-width} * 2) / 2) calc(16px - #{$border-width})
+    @include typo-label-icon-small(400)
+
+    &::placeholder
+      color: $text-prompt
+
+    &:hover
+      border-color: $black-opacity-40
+
+    &:focus, &:active
+      border-color: $text-prompt
+
+  .wrap
+    position: relative
+
+  .labelTop
+    @include typo-label-icon-small(500)
+    margin-bottom: 4px
+
+  .errorLabelBottom
+    @include typo-label-icon-small
+    margin-top: 4px
+    color: $red
+
+.small
+  .input
+    @include typo-label-icon-small
+    $border-width: 1px
+    $height: 32px
+    $line-height: 28px
+    min-width: 92px
+    height: $height
+    border-radius: 4px
+    border-width: 1px
+    padding: calc((#{$height} - #{$line-height} - #{$border-width} * 2)) / (2 (8px - #{$border-width}))
+
+.error
+  .input
+    border-color: $red
+
+.disabled
+  .input
+    cursor: not-allowed
+    background-color: $black-opacity-5
+    border-color: $black-opacity-40
+    color: $text-prompt

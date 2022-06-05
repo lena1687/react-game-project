@@ -1,22 +1,24 @@
 import React from "react";
 import classNames from "classnames";
 import styles from "./RadioGroup.sass";
+import { useField } from "formik";
+import { RadioGroupType } from "../../../../types/RadioGroupType";
 
-export interface RadioGroupOptions<Value> {
-  id: number;
-  text: string;
-  value: Value;
-}
-
-interface Props<Value = string> {
-  options: RadioGroupOptions<Value>[];
+interface Props {
+  options: RadioGroupType[];
   heading?: string;
   name: string;
   sizeRadio?: "small" | "medium";
   direction?: "row" | "column";
+  onRadioSelect?: (value: string | number) => void;
 }
 
-export const RadioGroup: React.FunctionComponent<Props> = (props: Props) => {
+export const RadioGroup: React.FunctionComponent<Props> = (
+  props: Props & JSX.IntrinsicElements["input"]
+) => {
+  const [, meta, helpers] = useField(props);
+  const { error: errorText, touched } = meta;
+  const { setValue } = helpers;
   const {
     options,
     heading,
@@ -35,32 +37,33 @@ export const RadioGroup: React.FunctionComponent<Props> = (props: Props) => {
     [styles[sizeRadio]]: true,
   });
 
-  const onChange = async (event: any) => {
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const eventValue = event.target.value;
-    console.log("-> eventValue", eventValue);
+    setValue(eventValue);
   };
 
   return (
-    <>
-      <div className={styles.radioGroup}>
-        {heading && <div className={styles.heading}>{heading}</div>}
-        <div className={classesDirection}>
-          {options.map(({ id, value, text }) => (
-            <div key={id}>
-              <label className={labelClasses}>
-                <input
-                  type="radio"
-                  name={name}
-                  value={value}
-                  onChange={onChange}
-                />
-                <span className={styles.control} />
-                <span className={styles.textLabel}>{text}</span>
-              </label>
-            </div>
-          ))}
-        </div>
+    <div className={styles.radioGroup}>
+      {heading && <div className={styles.heading}>{heading}</div>}
+      <div className={classesDirection}>
+        {options.map(({ id, value, text }) => (
+          <div key={id}>
+            <label className={labelClasses}>
+              <input
+                type="radio"
+                name={name}
+                value={value}
+                onChange={onChange}
+              />
+              <span className={styles.control} />
+              <span className={styles.textLabel}>{text}</span>
+            </label>
+          </div>
+        ))}
       </div>
-    </>
+      {errorText && touched && (
+        <div className={styles.errorLabelBottom}>{errorText}</div>
+      )}
+    </div>
   );
 };

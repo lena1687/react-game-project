@@ -1,6 +1,6 @@
 import { SelectFieldOptions } from "../interface/composites/forms/Select/Select";
 
-export const COMPLEXITY_MEMORY_CARDS: SelectFieldOptions<string>[] = [
+export const COMPLEXITY_MEMORY_CARDS: SelectFieldOptions[] = [
   { text: "4", value: "4" },
   { text: "6", value: "6" },
   { text: "8", value: "8" },
