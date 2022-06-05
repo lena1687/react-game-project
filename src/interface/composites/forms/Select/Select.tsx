@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Select.sass";
 import classNames from "classnames";
 import { useField } from "formik";
@@ -18,11 +18,15 @@ interface Props {
 
 export const Select: React.FunctionComponent<Props> = (props: Props) => {
   const [, meta, helpers] = useField(props);
-  const { error: errorText, touched } = meta;
+  const { error: errorText, touched, value } = meta;
   const { setValue } = helpers;
   const { options = [], topLabel, placeholder, onOptionSelect } = props;
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentValue, setCurrentValue] = useState<string | number>();
+
+  useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
 
   const onOptionClick = async (value: string | number) => {
     await setCurrentValue(value);
