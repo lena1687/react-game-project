@@ -1,22 +1,20 @@
-import React from "react";
+import React, { ReactNode, FC } from "react";
 import styles from "./OverlayFormFieldsButtons.sass";
 import classNames from "classnames";
 
 interface OverlayFormFieldsButtonsProps {
-  children?: React.ReactNode;
-  left?: React.ReactNode;
-  additionalLeft?: React.ReactNode;
-  right?: React.ReactNode;
+  left?: ReactNode;
+  additionalLeft?: ReactNode;
+  right?: ReactNode;
   isWidthLikeForm?: boolean;
 }
 
-export function OverlayFormFieldsButtons({
-  children,
+export const OverlayFormFieldsButtons: FC<OverlayFormFieldsButtonsProps> = ({
   left,
   additionalLeft,
   right,
   isWidthLikeForm,
-}: OverlayFormFieldsButtonsProps): JSX.Element {
+}) => {
   return (
     <div
       className={classNames({
@@ -26,14 +24,11 @@ export function OverlayFormFieldsButtons({
     >
       {(left || additionalLeft) && (
         <div className={styles.positionLeft}>
-          {left && <div>{left}</div>}
-          {additionalLeft && (
-            <div className={styles.additionalLeft}>{additionalLeft}</div>
-          )}
+          {left}
+          {additionalLeft}
         </div>
       )}
-      {right && <div>{right}</div>}
-      {children}
+      {right}
     </div>
   );
-}
+};

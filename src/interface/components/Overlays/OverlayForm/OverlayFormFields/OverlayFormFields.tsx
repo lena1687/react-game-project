@@ -1,12 +1,8 @@
-import React from "react";
+import React, { PropsWithChildren, FC } from "react";
 import styles from "./OverlayFormFields.sass";
 
-interface OverlayFormFieldsProps {
-  children?: React.ReactNode;
-}
-
-export function OverlayFormFields({
+export const OverlayFormFields: FC<PropsWithChildren<Record<never, never>>> = ({
   children,
-}: OverlayFormFieldsProps): JSX.Element {
+}) => {
   return <div className={styles.overlayFormFields}>{children}</div>;
-}
+};
