@@ -66,6 +66,13 @@ const config: Configuration = {
           filename: "./data/[name][ext]",
         },
       },
+      {
+        test: /\.(jpe?g|png|gif)$/i,
+        type: "asset/resource",
+        generator: {
+          filename: "./images/[name].[ext]",
+        },
+      },
     ],
   },
   resolve: {
