@@ -93,7 +93,6 @@ describe("Options", () => {
     radioSuperHeroesTheme.click();
     expect(radioAnimalTheme).not.toBeChecked();
     expect(radioSuperHeroesTheme).toBeChecked();
-    //screen.debug();
 
     //"Reset form"
     expect(getByText("Reset form")).toBeInTheDocument();
@@ -146,6 +145,5 @@ describe("Options", () => {
     await waitFor(() => {
       expect(container.querySelector(".errorLabelBottom")).toBeVisible();
     });
-    //screen.debug();
   });
 });
