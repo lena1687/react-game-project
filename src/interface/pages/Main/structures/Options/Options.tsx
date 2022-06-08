@@ -15,7 +15,15 @@ import { useNavigate } from "react-router-dom";
 
 const EMPTY_VALUE = "";
 
-export const Options = (): JSX.Element => {
+interface Props {
+  initialValues?: OptionsType;
+  onSubmitValues?: (value: OptionsType) => void;
+}
+
+export const Options = ({
+  initialValues,
+  onSubmitValues,
+}: Props): JSX.Element => {
   const navigate = useNavigate();
 
   const initialValuesForm: OptionsType = {
@@ -45,7 +53,9 @@ export const Options = (): JSX.Element => {
   ) => {
     const isEmpty = Object.values(values).every((x) => x === null || x === "");
     if (!isEmpty) {
-      resetForm();
+      resetForm({
+        values: initialValuesForm,
+      });
     }
   };
 
@@ -96,6 +106,9 @@ export const Options = (): JSX.Element => {
   };
 
   const sendFormData = async (data: OptionsType) => {
+    if (onSubmitValues) {
+      onSubmitValues(data);
+    }
     const currentData = Object.entries(data)
       .map(([key, val]) => `${key}=${val}`)
       .join("&");
@@ -108,7 +121,7 @@ export const Options = (): JSX.Element => {
       subHeading="Please, fill in the required fields"
     >
       <Formik
-        initialValues={initialValuesForm}
+        initialValues={initialValues || initialValuesForm}
         validationSchema={formValidationSchema}
         onSubmit={async (data) => {
           await sendFormData(data);

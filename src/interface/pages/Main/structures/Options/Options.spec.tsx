@@ -6,19 +6,13 @@ import {
   waitFor,
 } from "@testing-library/react";
 import { Options } from "./Options";
-import { Formik } from "formik";
 import React from "react";
-import { Main } from "../../Main";
+import { Router } from "react-router-dom";
+import { createMemoryHistory } from "history";
 
 describe("Options", () => {
   afterEach(() => {
     jest.clearAllMocks();
-  });
-  it("options after click 'Continue'", async () => {
-    const { container, getByText, queryByTestId } = render(<Main />);
-    fireEvent.click(getByText("Continue"));
-    expect(queryByTestId("button-continue")).not.toBeInTheDocument();
-    expect(container.querySelector(".overlayForm")).toBeVisible();
   });
 
   global.fetch = jest.fn(() =>
@@ -30,21 +24,23 @@ describe("Options", () => {
   ) as jest.Mock;
 
   it("render without errors", async () => {
-    const { container } = render(<Options />);
-    await waitFor(() => {
-      expect(container.querySelector(".radioGroup")).toBeVisible();
-    });
+    const history = createMemoryHistory();
+    const { container } = render(
+      <Router location={history.location} navigator={history}>
+        <Options />
+      </Router>
+    );
+    const error = container.querySelector(".errorLabelBottom") as HTMLElement;
+    expect(error).not.toBeInTheDocument();
   });
 
   it("filling out the form", async () => {
+    const history = createMemoryHistory();
     const onSubmit = jest.fn();
     const { container, getByText } = render(
-      <Formik
-        initialValues={{ userName: "", complexity: null, theme: null }}
-        onSubmit={onSubmit}
-      >
-        {() => <Options />}
-      </Formik>
+      <Router location={history.location} navigator={history}>
+        <Options onSubmitValues={onSubmit} />
+      </Router>
     );
 
     //select "UserName"
@@ -99,26 +95,39 @@ describe("Options", () => {
 
     //Click "Let's go"
     expect(getByText("Let's go")).toBeInTheDocument();
-    fireEvent.click(getByText("Let's go"));
     const error = container.querySelector(".errorLabelBottom") as HTMLElement;
+    expect(error).not.toBeInTheDocument();
+    fireEvent.click(getByText("Let's go"));
     await waitFor(() => {
-      expect(error).not.toBeVisible();
+      expect(onSubmit).toBeCalledTimes(1);
     });
+    await waitFor(() =>
+      expect(onSubmit).toHaveBeenCalledWith({
+        userName: "Result",
+        complexity: "6",
+        theme: "superHeroesTheme",
+      })
+    );
+    expect(history.location.pathname).toBe("/memory-cards");
+    expect(history.location.search).toBe(
+      "?userName=Result&complexity=6&theme=superHeroesTheme"
+    );
   });
 
   it("reset form", async () => {
     const onSubmit = jest.fn();
+    const history = createMemoryHistory();
     const { container, getByText } = render(
-      <Formik
-        initialValues={{
-          userName: "Result",
-          complexity: "6",
-          theme: "animalTheme",
-        }}
-        onSubmit={onSubmit}
-      >
-        {() => <Options />}
-      </Formik>
+      <Router location={history.location} navigator={history}>
+        <Options
+          initialValues={{
+            userName: "Result",
+            complexity: "6",
+            theme: "animalTheme",
+          }}
+          onSubmitValues={onSubmit}
+        />
+      </Router>
     );
 
     //Click "Reset form"
