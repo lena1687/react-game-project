@@ -4,6 +4,7 @@ import { unmountComponentAtNode } from "react-dom";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
 import React from "react";
+import MOCK_DATA_THEMES from "../../../assets/data/themesMemoryCards.json";
 
 let container: any = null;
 beforeEach(() => {
@@ -20,6 +21,14 @@ afterEach(() => {
 });
 
 describe("Main", () => {
+  global.fetch = jest.fn(() =>
+    Promise.resolve({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve(MOCK_DATA_THEMES),
+    })
+  ) as jest.Mock;
+
   it("generalInfo", () => {
     const { container, getByText } = render(<Main />);
     //different methods of getting text
