@@ -1,5 +1,6 @@
 import React from "react";
 import Themes from "./Themes";
+import styles from "./Options.sass";
 import { Form, Formik, FormikProps } from "formik";
 import { OptionsType } from "../../../../../types/OptionsType";
 import * as Yup from "yup";
@@ -10,10 +11,21 @@ import { Button } from "../../../../components/Button";
 import { OverlayForm } from "../../../../components/Overlays/OverlayForm";
 import { OverlayFormFields } from "../../../../components/Overlays/OverlayForm/OverlayFormFields";
 import { OverlayFormFieldsButtons } from "../../../../components/Overlays/OverlayForm/OverlayFormButtons";
+import { useNavigate } from "react-router-dom";
 
 const EMPTY_VALUE = "";
 
-export const Options = (): JSX.Element => {
+interface Props {
+  initialValues?: OptionsType;
+  onSubmitValues?: (value: OptionsType) => void;
+}
+
+export const Options = ({
+  initialValues,
+  onSubmitValues,
+}: Props): JSX.Element => {
+  const navigate = useNavigate();
+
   const initialValuesForm: OptionsType = {
     userName: EMPTY_VALUE,
     complexity: null,
@@ -41,7 +53,9 @@ export const Options = (): JSX.Element => {
   ) => {
     const isEmpty = Object.values(values).every((x) => x === null || x === "");
     if (!isEmpty) {
-      resetForm();
+      resetForm({
+        values: initialValuesForm,
+      });
     }
   };
 
@@ -51,54 +65,63 @@ export const Options = (): JSX.Element => {
     resetForm,
   }: FormikProps<OptionsType>) => {
     return (
-      <Form noValidate={true}>
-        <OverlayFormFields>
-          <TextField
-            name="userName"
-            topLabel="UserName"
-            onChangeText={(value) => changeUserName(value, setFieldValue)}
+      <Form className={styles.options} noValidate={true}>
+        <div className={styles.header}>Initial Options</div>
+        <div className={styles.wrap}>
+          <OverlayFormFields>
+            <TextField
+              name="userName"
+              topLabel="UserName"
+              onChangeText={(value) => changeUserName(value, setFieldValue)}
+            />
+            <Select
+              name="complexity"
+              options={COMPLEXITY_MEMORY_CARDS}
+              topLabel="Difficulty level"
+              placeholder="Choose the difficulty level"
+            />
+            <Themes />
+          </OverlayFormFields>
+          <OverlayFormFieldsButtons
+            isWidthLikeForm
+            left={
+              <Button type="submit" size="large">
+                Let's go
+              </Button>
+            }
+            right={
+              <Button
+                type="button"
+                isSecondary
+                size="large"
+                onButtonClick={() => resetFormValues(resetForm, values)}
+              >
+                Reset form
+              </Button>
+            }
           />
-          <Select
-            name="complexity"
-            options={COMPLEXITY_MEMORY_CARDS}
-            topLabel="Difficulty level"
-            placeholder="Choose the difficulty level"
-          />
-          <Themes />
-        </OverlayFormFields>
-        <OverlayFormFieldsButtons
-          isWidthLikeForm
-          left={
-            <Button type="submit" size="large">
-              Let's go
-            </Button>
-          }
-          right={
-            <Button
-              type="button"
-              isSecondary
-              size="large"
-              onButtonClick={() => resetFormValues(resetForm, values)}
-            >
-              Reset form
-            </Button>
-          }
-        />
+        </div>
       </Form>
     );
   };
 
   const sendFormData = async (data: OptionsType) => {
-    //console.log(data);
+    if (onSubmitValues) {
+      onSubmitValues(data);
+    }
+    const currentData = Object.entries(data)
+      .map(([key, val]) => `${key}=${val}`)
+      .join("&");
+    navigate(`/memory-cards?${currentData}`);
   };
 
   return (
     <OverlayForm
-      heading="Initial Options"
+      heading="Before playing, please, select the initial options."
       subHeading="Please, fill in the required fields"
     >
       <Formik
-        initialValues={initialValuesForm}
+        initialValues={initialValues || initialValuesForm}
         validationSchema={formValidationSchema}
         onSubmit={async (data) => {
           await sendFormData(data);

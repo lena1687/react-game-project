@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./Select.sass";
 import classNames from "classnames";
 import { useField } from "formik";
@@ -28,12 +28,15 @@ export const Select: React.FunctionComponent<Props> = (props: Props) => {
     setCurrentValue(value);
   }, [value]);
 
-  const onOptionClick = async (value: string | number) => {
-    await setCurrentValue(value);
-    await setValue(value);
-    await setIsOpen(false);
-    onOptionSelect && onOptionSelect(value);
-  };
+  const onOptionClick = useCallback(
+    (value: string | number) => {
+      setCurrentValue(value);
+      setValue(value);
+      setIsOpen(false);
+      onOptionSelect && onOptionSelect(value);
+    },
+    [setValue, onOptionSelect]
+  );
 
   const classesPanel = classNames({
     [styles.panel]: true,
