@@ -5,15 +5,13 @@ import styles from "./NotFound.sass";
 
 export const NotFound = (): JSX.Element => {
   return (
-    <>
-      <div className={styles.notFound}>
-        <Link className={styles.backLink} to="/">
-          Go Home
-        </Link>
-        <div className={styles.wrap}>
-          <img src={imageNotFound} alt="not-found-page" width="700px" />
-        </div>
+    <div className={styles.notFound}>
+      <Link className={styles.backLink} to="/">
+        Go Home
+      </Link>
+      <div className={styles.wrap}>
+        <img src={imageNotFound} alt="not-found-page" width="700px" />
       </div>
-    </>
+    </div>
   );
 };

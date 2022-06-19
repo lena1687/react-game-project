@@ -28,10 +28,10 @@ export const Select: React.FunctionComponent<Props> = (props: Props) => {
     setCurrentValue(value);
   }, [value]);
 
-  const onOptionClick = async (value: string | number) => {
-    await setCurrentValue(value);
-    await setValue(value);
-    await setIsOpen(false);
+  const onOptionClick = (value: string | number) => {
+    setCurrentValue(value);
+    setValue(value);
+    setIsOpen(false);
     onOptionSelect && onOptionSelect(value);
   };
 
