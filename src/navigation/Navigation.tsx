@@ -1,8 +1,8 @@
 import React, { FC } from "react";
 import { Route, Routes } from "react-router-dom";
-import { Main } from "../interface/pages/Main";
-import { MemoryCards } from "../interface/pages/MemoryCards";
-import { NotFound } from "../interface/pages/NotFound";
+import { Main } from "Pages/Main";
+import { MemoryCards } from "Pages/MemoryCards";
+import { NotFound } from "Pages/NotFound";
 
 export const Navigation: FC = () => (
   <Routes>

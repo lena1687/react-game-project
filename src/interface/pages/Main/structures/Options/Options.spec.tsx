@@ -1,4 +1,4 @@
-import MOCK_DATA_THEMES from "../../../../../assets/data/themesMemoryCards.json";
+import MOCK_DATA_THEMES from "Assets/data/themesMemoryCards.json";
 import {
   fireEvent,
   getNodeText,

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { GeneralInfo } from "./structures/GeneralInfo";
-import { Button } from "../../components/Button";
+import { Button } from "Components/Button";
 import { Options } from "./structures/Options";
 
 export const Main = (): JSX.Element => {

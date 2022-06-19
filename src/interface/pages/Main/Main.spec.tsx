@@ -1,10 +1,10 @@
 import { render, getNodeText, fireEvent } from "@testing-library/react";
-import { Main } from "./Main";
+import { Main } from "Pages/Main";
 import { unmountComponentAtNode } from "react-dom";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
 import React from "react";
-import MOCK_DATA_THEMES from "../../../assets/data/themesMemoryCards.json";
+import MOCK_DATA_THEMES from "Assets/data/themesMemoryCards.json";
 
 let container: any = null;
 beforeEach(() => {

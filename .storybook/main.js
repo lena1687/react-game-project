@@ -38,6 +38,16 @@ module.exports = {
       ],
       include: path.resolve(__dirname, "../"),
     });
+    config.resolve.alias = {
+      Assets: path.resolve(__dirname, "../src/assets/"),
+      Constants: path.resolve(__dirname, "../src/constants/"),
+      Components: path.resolve(__dirname, "../src/interface/components/"),
+      Composites: path.resolve(__dirname, "../src/interface/composites/"),
+      Pages: path.resolve(__dirname, "../src/interface/pages/"),
+      Structures: path.resolve(__dirname, "../src/interface/structures/"),
+      Navigation: path.resolve(__dirname, "../src/navigation/"),
+      Types: path.resolve(__dirname, "../src/types/"),
+    };
 
     // Return the altered config
     return config;

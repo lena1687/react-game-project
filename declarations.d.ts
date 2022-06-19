@@ -2,6 +2,7 @@ declare module "*.css";
 declare module "*.sass";
 declare module "*.scss";
 declare module "*.png";
+declare module "*.json";
 
 declare module "*.svg" {
   import React from "react";

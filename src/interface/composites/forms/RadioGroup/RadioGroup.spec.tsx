@@ -1,9 +1,9 @@
 import { RadioGroup } from "./RadioGroup";
 import React from "react";
 import { fireEvent, waitFor, render } from "@testing-library/react";
-import { RadioGroupType } from "../../../../types/RadioGroupType";
+import { RadioGroupType } from "Types/RadioGroupType";
 import { Form, Formik } from "formik";
-import { Button } from "../../../components/Button";
+import { Button } from "Components/Button";
 
 const RADIO_GROUP_OPTIONS: RadioGroupType[] = [
   {
