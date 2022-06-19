@@ -18,7 +18,7 @@ describe("Options", () => {
     const { container, getByText, queryByTestId } = render(<Main />);
     fireEvent.click(getByText("Continue"));
     expect(queryByTestId("button-continue")).not.toBeInTheDocument();
-    expect(container.querySelector(".options")).toBeVisible();
+    expect(container.querySelector(".overlayForm")).toBeVisible();
   });
 
   global.fetch = jest.fn(() =>
@@ -93,16 +93,57 @@ describe("Options", () => {
     radioSuperHeroesTheme.click();
     expect(radioAnimalTheme).not.toBeChecked();
     expect(radioSuperHeroesTheme).toBeChecked();
-    //screen.debug();
+
+    //"Reset form"
+    expect(getByText("Reset form")).toBeInTheDocument();
 
     //Click "Let's go"
     expect(getByText("Let's go")).toBeInTheDocument();
     fireEvent.click(getByText("Let's go"));
     const error = container.querySelector(".errorLabelBottom") as HTMLElement;
     await waitFor(() => {
-      expect(error).not.toBeInTheDocument();
+      expect(error).not.toBeVisible();
     });
+  });
 
-    // screen.debug();
+  it("reset form", async () => {
+    const onSubmit = jest.fn();
+    const { container, getByText } = render(
+      <Formik
+        initialValues={{
+          userName: "Result",
+          complexity: "6",
+          theme: "animalTheme",
+        }}
+        onSubmit={onSubmit}
+      >
+        {() => <Options />}
+      </Formik>
+    );
+
+    //Click "Reset form"
+    expect(getByText("Reset form")).toBeInTheDocument();
+    fireEvent.click(getByText("Reset form"));
+    await waitFor(() => {
+      expect(
+        container.querySelector("input[name='userName']")?.getAttribute("value")
+      ).toEqual("");
+    });
+    expect(
+      getNodeText(container.querySelector(".field") as HTMLElement)
+    ).toEqual("Choose the difficulty level");
+    expect(
+      container.querySelector('input[value="animalTheme"]')
+    ).not.toBeChecked();
+    expect(
+      container.querySelector('input[value="superHeroesTheme"]')
+    ).not.toBeChecked();
+
+    //Click "Let's go"
+    expect(getByText("Let's go")).toBeInTheDocument();
+    fireEvent.click(getByText("Let's go"));
+    await waitFor(() => {
+      expect(container.querySelector(".errorLabelBottom")).toBeVisible();
+    });
   });
 });

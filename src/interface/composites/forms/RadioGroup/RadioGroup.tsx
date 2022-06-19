@@ -47,18 +47,17 @@ export const RadioGroup: React.FunctionComponent<Props> = (
       {heading && <div className={styles.heading}>{heading}</div>}
       <div className={classesDirection}>
         {options.map(({ id, value, text }) => (
-          <div key={id}>
-            <label className={labelClasses}>
-              <input
-                type="radio"
-                name={name}
-                value={value}
-                onChange={onChange}
-              />
-              <span className={styles.control} />
-              <span className={styles.textLabel}>{text}</span>
-            </label>
-          </div>
+          <label className={labelClasses} key={id}>
+            <input
+              type="radio"
+              name={name}
+              value={value}
+              onChange={onChange}
+              checked={value === meta.value}
+            />
+            <span className={styles.control} />
+            <span className={styles.textLabel}>{text}</span>
+          </label>
         ))}
       </div>
       {errorText && touched && (

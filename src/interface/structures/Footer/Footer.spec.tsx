@@ -1,4 +1,4 @@
-import { getNodeText, render, screen } from "@testing-library/react";
+import { getNodeText, render } from "@testing-library/react";
 import { Footer } from "./Footer";
 
 const currentYear = new Date().getFullYear();
@@ -14,6 +14,5 @@ describe("Footer", () => {
     expect(getNodeText(copyright as HTMLElement)).toEqual(
       `Copyright ©${currentYear}`
     );
-    // screen.debug();
   });
 });

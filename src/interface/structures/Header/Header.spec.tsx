@@ -23,7 +23,5 @@ describe("Header", () => {
     );
     expect(headerInfo).toHaveAttribute("target", "_blank");
     expect(getByText("Go to repo")).toBeInTheDocument();
-
-    // screen.debug();
   });
 });

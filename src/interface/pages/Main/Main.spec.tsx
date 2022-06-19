@@ -29,13 +29,11 @@ describe("Main", () => {
     //for searching a part phrase
     const note = getByTestId("general-info-note");
     expect(note).toHaveTextContent("Before playing");
-    // screen.debug();
   });
 
   it("button 'Continue'", () => {
     const { container, getByRole } = render(<Main />);
     getByRole("button", { name: "Continue" });
     expect(container.getElementsByClassName("options").length).toBe(0);
-    // screen.debug();
   });
 });

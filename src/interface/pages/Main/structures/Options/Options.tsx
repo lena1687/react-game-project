@@ -1,6 +1,5 @@
 import React from "react";
 import Themes from "./Themes";
-import styles from "./Options.sass";
 import { Form, Formik, FormikProps } from "formik";
 import { OptionsType } from "../../../../../types/OptionsType";
 import * as Yup from "yup";
@@ -8,6 +7,9 @@ import { COMPLEXITY_MEMORY_CARDS } from "../../../../../consts/common";
 import { Select } from "../../../../composites/forms/Select";
 import { TextField } from "../../../../composites/forms/TextField";
 import { Button } from "../../../../components/Button";
+import { OverlayForm } from "../../../../components/Overlays/OverlayForm";
+import { OverlayFormFields } from "../../../../components/Overlays/OverlayForm/OverlayFormFields";
+import { OverlayFormFieldsButtons } from "../../../../components/Overlays/OverlayForm/OverlayFormButtons";
 
 const EMPTY_VALUE = "";
 
@@ -33,26 +35,55 @@ export const Options = (): JSX.Element => {
     setFieldValue("userName", value.charAt(0).toUpperCase() + value.slice(1));
   };
 
+  const resetFormValues = (
+    resetForm: FormikProps<OptionsType>["resetForm"],
+    values: FormikProps<OptionsType>["values"]
+  ) => {
+    const isEmpty = Object.values(values).every((x) => x === null || x === "");
+    if (!isEmpty) {
+      resetForm();
+    }
+  };
+
   const initializingFormContent = ({
+    values,
     setFieldValue,
+    resetForm,
   }: FormikProps<OptionsType>) => {
     return (
-      <Form className={styles.options} noValidate={true}>
-        <TextField
-          name="userName"
-          topLabel="UserName"
-          onChangeText={(value) => changeUserName(value, setFieldValue)}
+      <Form noValidate={true}>
+        <OverlayFormFields>
+          <TextField
+            name="userName"
+            topLabel="UserName"
+            onChangeText={(value) => changeUserName(value, setFieldValue)}
+          />
+          <Select
+            name="complexity"
+            options={COMPLEXITY_MEMORY_CARDS}
+            topLabel="Difficulty level"
+            placeholder="Choose the difficulty level"
+          />
+          <Themes />
+        </OverlayFormFields>
+        <OverlayFormFieldsButtons
+          isWidthLikeForm
+          left={
+            <Button type="submit" size="large">
+              Let's go
+            </Button>
+          }
+          right={
+            <Button
+              type="button"
+              isSecondary
+              size="large"
+              onButtonClick={() => resetFormValues(resetForm, values)}
+            >
+              Reset form
+            </Button>
+          }
         />
-        <Select
-          name="complexity"
-          options={COMPLEXITY_MEMORY_CARDS}
-          topLabel="Difficulty level"
-          placeholder="Choose the difficulty level"
-        />
-        <Themes />
-        <Button type="submit" size="large">
-          Let's go
-        </Button>
       </Form>
     );
   };
@@ -62,14 +93,19 @@ export const Options = (): JSX.Element => {
   };
 
   return (
-    <Formik
-      initialValues={initialValuesForm}
-      validationSchema={formValidationSchema}
-      onSubmit={async (data) => {
-        await sendFormData(data);
-      }}
+    <OverlayForm
+      heading="Initial Options"
+      subHeading="Please, fill in the required fields"
     >
-      {initializingFormContent}
-    </Formik>
+      <Formik
+        initialValues={initialValuesForm}
+        validationSchema={formValidationSchema}
+        onSubmit={async (data) => {
+          await sendFormData(data);
+        }}
+      >
+        {initializingFormContent}
+      </Formik>
+    </OverlayForm>
   );
 };
