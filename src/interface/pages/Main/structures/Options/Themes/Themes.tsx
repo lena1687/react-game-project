@@ -2,6 +2,7 @@ import React from "react";
 import { RadioGroup } from "Composites/forms/RadioGroup";
 import { RadioGroupType } from "Types/RadioGroupType";
 import "Assets/data/themesMemoryCards.json";
+import { ThemesType } from "Types/ThemesType";
 
 type PropsThemes = {
   error: Record<"message", string> | null;
@@ -39,6 +40,18 @@ class Themes extends React.Component<any, PropsThemes> {
               isLoaded: true,
               themes: result,
             });
+            const imagesSet = result.map(
+              ({
+                value,
+                images,
+              }: {
+                value: ThemesType;
+                images: Array<string>;
+              }) => {
+                return { value: value, images };
+              }
+            );
+            localStorage.setItem("setOfImages", JSON.stringify(imagesSet));
           }
         },
         (error) => {

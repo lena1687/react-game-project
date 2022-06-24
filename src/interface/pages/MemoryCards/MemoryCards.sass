@@ -1,0 +1,23 @@
+@import "~Assets/styles/typo"
+@import "~Assets/styles/variables"
+
+.memoryCards
+  margin-bottom: 30px
+
+  .heading
+    @include typo-h0-megaheader()
+
+  .wrap
+    margin-top: 40px
+    display: grid
+    grid-template-columns: 220px 220px 220px 220px
+    grid-template-rows: 220px 220px 220px 220px
+    grid-column-gap: 40px
+    grid-row-gap: 40px
+    place-items: center
+
+  .cardItem
+    width: 220px
+    height: 220px
+    cursor: pointer
+    box-shadow: $black-opacity-20 0 0 0 1px

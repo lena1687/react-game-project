@@ -63,8 +63,8 @@ describe("Options", () => {
       expect(container.querySelector(".panel")).toBeVisible();
     });
     const items = container.getElementsByClassName("panelItem");
-    expect(items).toHaveLength(9);
-    fireEvent.click(getByText("6"));
+    expect(items).toHaveLength(3);
+    fireEvent.click(getByText("Medium"));
     await waitFor(() => {
       expect(container.getElementsByClassName("panel").length).toBe(0);
     });
@@ -104,13 +104,13 @@ describe("Options", () => {
     await waitFor(() =>
       expect(onSubmit).toHaveBeenCalledWith({
         userName: "Result",
-        complexity: "6",
+        complexity: "12",
         theme: "superHeroesTheme",
       })
     );
     expect(history.location.pathname).toBe("/memory-cards");
     expect(history.location.search).toBe(
-      "?userName=Result&complexity=6&theme=superHeroesTheme"
+      "?userName=Result&complexity=12&theme=superHeroesTheme"
     );
   });
 
@@ -122,7 +122,7 @@ describe("Options", () => {
         <Options
           initialValues={{
             userName: "Result",
-            complexity: "6",
+            complexity: "12",
             theme: "animalTheme",
           }}
           onSubmitValues={onSubmit}

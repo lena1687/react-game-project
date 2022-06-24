@@ -67,7 +67,7 @@ const config: Configuration = {
         },
       },
       {
-        test: /\.(jpe?g|png|gif)$/i,
+        test: /\.(jpe?g|jpg|png|gif)$/i,
         type: "asset/resource",
         generator: {
           filename: "./images/[name].[ext]",

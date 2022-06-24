@@ -9,6 +9,7 @@ export const Main = (): JSX.Element => {
   function clickContinue() {
     setIsVisibleOptions(true);
   }
+
   return (
     <>
       <GeneralInfo heading="Hi, my friends" />
