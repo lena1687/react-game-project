@@ -35,8 +35,8 @@ describe("Main", () => {
     expect(getByText("Hi, my friends")).toBeInTheDocument();
     expect(
       getNodeText(container.querySelector(".description") as HTMLElement)
-    ).toEqual(
-      'Happy to see you in the game "Memory Cards". Purpose of the game: open all the cards by finding the pairs.'
+    ).toContain(
+      'Happy to see you in the game "Memory Cards".Purpose of the game: open all the cards by finding the pairs.'
     );
   });
 

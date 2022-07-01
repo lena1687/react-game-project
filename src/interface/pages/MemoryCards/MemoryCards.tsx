@@ -28,21 +28,21 @@ export const MemoryCards = (): JSX.Element => {
   }
 
   //progress
+  const progressInLocalStorage = JSON.parse(
+    localStorage.getItem("progress") || "[]"
+  );
   const initialProgress = images
     ? localStorage.getItem("progress") !== null
-      ? JSON.parse(localStorage.getItem("progress") || "[]")
+      ? progressInLocalStorage
       : images.map((item: string): boolean => !item)
     : [];
   const [progress, setProgress] = useState<boolean[]>(initialProgress);
-  console.log("-> const progress", progress);
 
   //render
   const setImageCard = (card: string, index: number) => {
-    if (progress[index]) {
-      return require(`Assets/data/cards/${themeGame}/${card}`);
-    } else {
-      return require(`Assets/data/cards/cardBack.jpg`);
-    }
+    return require(`Assets/data/cards/${
+      progress[index] ? `${themeGame}/${card}` : `cardBack.jpg`
+    }`);
   };
 
   const selectCard = () => {
@@ -69,7 +69,7 @@ export const MemoryCards = (): JSX.Element => {
                 src={setImageCard(card, index)}
                 className={styles.cardItem}
                 key={index}
-                alt={card}
+                alt={progress[index] ? card : "cardBack"}
               />
             );
           })}
