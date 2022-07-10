@@ -1,80 +1,89 @@
-import React, { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 import styles from "./MemoryCards.sass";
-import { ThemesType } from "Types/ThemesType";
+import { useSelector } from "react-redux";
+import { fetchDataMemoryCards } from "Slices/MemoryCardsSlice";
+import { useAppDispatch } from "../../../redux/store";
+import { InitialLoadingState } from "Types/MemoryCardsType";
+
+// if (error) {
+//   return <div>Error: {error.message}</div>;
+// } else if (!isLoaded) {
+//   return <div>Loading data</div>;
+// } else {
+//   );
+// }
 
 export const MemoryCards = (): JSX.Element => {
-  const [searchParams] = useSearchParams();
-  const userName = searchParams.get("userName");
-  const themeGame = searchParams.get("theme");
-  const complexity = searchParams.get("complexity");
-
-  //cardsData
-  const cardsData = JSON.parse(localStorage.getItem("setOfImages") || "[]");
-  const cardDataTheme = cardsData.find(
-    ({ value }: { value: ThemesType }) => value === themeGame
+  const { error, loading, data } = useSelector(
+    (state: Record<string, InitialLoadingState>) => state
   );
-  const { images } = cardDataTheme ? cardDataTheme : { images: null };
-  const newSetOfCards: Array<string> = images ? initSetOfCards() : [];
+  const dispatch = useAppDispatch();
 
-  function initSetOfCards() {
-    const uniqueCards = complexity ? parseInt(complexity) / 2 : null;
-    const randomAndSortArray = images
-      .sort(() => 0.5 - Math.random())
-      .slice(0, uniqueCards);
-    return [...randomAndSortArray, ...randomAndSortArray].sort(
-      () => Math.random() - 0.5
-    );
-  }
+  useEffect(() => {
+    const promise = dispatch(fetchDataMemoryCards());
+    promise.abort();
+    console.log("-> promise", promise);
+  }, [dispatch]);
+
+  console.log("-> error, loading, data", error, loading, data);
+
+  // const images = useSelector(
+  //   (state: Record<string, InitialLoadingState>) => state.data.images
+  // );
+  // const { userName, themeGame } = useSelector(
+  //   (state: Record<string, InitialLoadingState>) => state.data.params
+  // );
+
+  //const images = [];
 
   //progress
-  const progressInLocalStorage = JSON.parse(
-    localStorage.getItem("progress") || "[]"
-  );
-  const initialProgress = images
-    ? localStorage.getItem("progress") !== null
-      ? progressInLocalStorage
-      : images.map((item: string): boolean => !item)
-    : [];
-  const [progress, setProgress] = useState<boolean[]>(initialProgress);
+  // const progressInLocalStorage = JSON.parse(
+  //   localStorage.getItem("progress") || "[]"
+  // );
+  // const initialProgress = images
+  //   ? localStorage.getItem("progress") !== null
+  //     ? progressInLocalStorage
+  //     : images.map((item: string): boolean => !item)
+  //   : [];
+  // const [progress, setProgress] = useState<boolean[]>(initialProgress);
 
-  //render
-  const setImageCard = (card: string, index: number) => {
-    return require(`Assets/data/cards/${
-      progress[index] ? `${themeGame}/${card}` : `cardBack.jpg`
-    }`);
-  };
+  // //render
+  // const setImageCard = (card: string, index: number) => {
+  //   return require(`Assets/data/cards/${
+  //     progress[index] ? `${themeGame}/${card}` : `cardBack.jpg`
+  //   }`);
+  // };
 
-  const selectCard = () => {
-    localStorage.setItem("progress", JSON.stringify(progress));
-  };
+  // const selectCard = () => {
+  //   localStorage.setItem("progress", JSON.stringify(progress));
+  // };
 
   return (
     <div className={styles.memoryCards}>
-      <div className={styles.heading}>So, {userName}</div>
+      {/*<div className={styles.heading}>So, {userName}</div>*/}
       <div className={styles.description}>
         Your task is to find the same pairs of cards.
       </div>
-      {!images && (
-        <div className={styles.errorMessage}>
-          Before playing, please, select the <a href="/">initial options</a>
-        </div>
-      )}
-      {images?.length > 0 && (
-        <div className={styles.cardsWrap}>
-          {newSetOfCards.map((card, index) => {
-            return (
-              <img
-                onClick={selectCard}
-                src={setImageCard(card, index)}
-                className={styles.cardItem}
-                key={index}
-                alt={progress[index] ? card : "cardBack"}
-              />
-            );
-          })}
-        </div>
-      )}
+      {/*{!images && (*/}
+      {/*  <div className={styles.errorMessage}>*/}
+      {/*    Before playing, please, select the <a href="/">initial options</a>*/}
+      {/*  </div>*/}
+      {/*)}*/}
+      {/*{images?.length > 0 && (*/}
+      {/*  <div className={styles.cardsWrap}>*/}
+      {/*    {images.map((card, index) => {*/}
+      {/*      return (*/}
+      {/*        <img*/}
+      {/*          onClick={selectCard}*/}
+      {/*          src={setImageCard(card, index)}*/}
+      {/*          className={styles.cardItem}*/}
+      {/*          key={index}*/}
+      {/*          alt={progress[index] ? card : "cardBack"}*/}
+      {/*        />*/}
+      {/*      );*/}
+      {/*    })}*/}
+      {/*  </div>*/}
+      {/*)}*/}
     </div>
   );
 };

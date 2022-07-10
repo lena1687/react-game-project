@@ -21,7 +21,9 @@
       "Pages/*": ["src/interface/pages/*"],
       "Structures/*": ["src/interface/structures/*"],
       "Navigation/*": ["src/navigation/*"],
-      "Types/*": ["src/types/*"]
+      "Types/*": ["src/types/*"],
+      "Slices/*": ["src/redux/slices/*"],
+      "Actions/*": ["src/redux/actions/*"]
     }
   },
   "include": ["src", "declarations.d.ts"]

@@ -18,6 +18,8 @@ module.exports = {
     "^Structures(.*)$": "<rootDir>/src/interface/structures$1",
     "^Navigation(.*)$": "<rootDir>/src/navigation$1",
     "^Types(.*)$": "<rootDir>/src/types$1",
+    "^Slices(.*)$": "<rootDir>/src/redux/slices$1",
+    "^Actions(.*)$": "<rootDir>/src/redux/actions$1",
   },
   transformIgnorePatterns: ["/node_modules/(?!react-file-drop)"],
   transform: {

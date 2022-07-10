@@ -40,18 +40,6 @@ class Themes extends React.Component<any, PropsThemes> {
               isLoaded: true,
               themes: result,
             });
-            const imagesSet = result.map(
-              ({
-                value,
-                images,
-              }: {
-                value: ThemesType;
-                images: Array<string>;
-              }) => {
-                return { value: value, images };
-              }
-            );
-            localStorage.setItem("setOfImages", JSON.stringify(imagesSet));
           }
         },
         (error) => {

@@ -86,6 +86,8 @@ const config: Configuration = {
       Structures: path.resolve(__dirname, "src/interface/structures/"),
       Navigation: path.resolve(__dirname, "src/navigation/"),
       Types: path.resolve(__dirname, "src/types/"),
+      Slices: path.resolve(__dirname, "src/redux/slices/"),
+      Actions: path.resolve(__dirname, "src/redux/actions/"),
     },
   },
   plugins: [
