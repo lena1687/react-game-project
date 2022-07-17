@@ -4,86 +4,95 @@ import { useSelector } from "react-redux";
 import { fetchDataMemoryCards } from "Slices/MemoryCardsSlice";
 import { useAppDispatch } from "../../../redux/store";
 import { InitialLoadingState } from "Types/MemoryCardsType";
-
-// if (error) {
-//   return <div>Error: {error.message}</div>;
-// } else if (!isLoaded) {
-//   return <div>Loading data</div>;
-// } else {
-//   );
-// }
+import { getAndModifyImages } from "Actions/MemoryCardsActions";
+import { useSearchParams } from "react-router-dom";
 
 export const MemoryCards = (): JSX.Element => {
-  const { error, loading, data } = useSelector(
-    (state: Record<string, InitialLoadingState>) => state
-  );
   const dispatch = useAppDispatch();
+  const [searchParams] = useSearchParams();
+  const complexityParam = searchParams.get("complexity");
+  const params = {
+    userName: searchParams.get("userName"),
+    theme: searchParams.get("theme"),
+    complexity: complexityParam ? parseInt(complexityParam) : 8,
+  };
+  const { userName, theme, complexity } = params;
+  const { error, loading, data } = useSelector(
+    (state: Record<string, InitialLoadingState>) => state.MemoryCardsSlice
+  );
 
   useEffect(() => {
-    const promise = dispatch(fetchDataMemoryCards());
-    promise.abort();
-    console.log("-> promise", promise);
+    dispatch(fetchDataMemoryCards());
   }, [dispatch]);
 
-  console.log("-> error, loading, data", error, loading, data);
+  const loadImages = () => {
+    if (data && Array.isArray(data)) {
+      return getAndModifyImages(data, params);
+    } else {
+      return { images: [], params: {} };
+    }
+  };
 
-  // const images = useSelector(
-  //   (state: Record<string, InitialLoadingState>) => state.data.images
-  // );
-  // const { userName, themeGame } = useSelector(
-  //   (state: Record<string, InitialLoadingState>) => state.data.params
-  // );
-
-  //const images = [];
+  const dataCurrentGame = loadImages() || {
+    images: [""],
+  };
+  const { images } = dataCurrentGame;
+  console.log("-> images, params", images, userName, complexity, theme);
 
   //progress
-  // const progressInLocalStorage = JSON.parse(
-  //   localStorage.getItem("progress") || "[]"
-  // );
-  // const initialProgress = images
-  //   ? localStorage.getItem("progress") !== null
-  //     ? progressInLocalStorage
-  //     : images.map((item: string): boolean => !item)
-  //   : [];
-  // const [progress, setProgress] = useState<boolean[]>(initialProgress);
+  const progressInLocalStorage = JSON.parse(
+    localStorage.getItem("progress") || "[]"
+  );
+  const initialProgress = images
+    ? localStorage.getItem("progress") !== null
+      ? progressInLocalStorage
+      : images.map((item: string): boolean => !item)
+    : [];
+  const [progress, setProgress] = useState<boolean[]>(initialProgress);
 
-  // //render
-  // const setImageCard = (card: string, index: number) => {
-  //   return require(`Assets/data/cards/${
-  //     progress[index] ? `${themeGame}/${card}` : `cardBack.jpg`
-  //   }`);
-  // };
+  //render
+  const setImageCard = (card: string, index: number) => {
+    return require(`Assets/data/cards/${
+      progress[index] ? `${theme}/${card}` : `cardBack.jpg`
+    }`);
+  };
 
-  // const selectCard = () => {
-  //   localStorage.setItem("progress", JSON.stringify(progress));
-  // };
+  const selectCard = () => {
+    localStorage.setItem("progress", JSON.stringify(progress));
+  };
 
   return (
-    <div className={styles.memoryCards}>
-      {/*<div className={styles.heading}>So, {userName}</div>*/}
-      <div className={styles.description}>
-        Your task is to find the same pairs of cards.
-      </div>
-      {/*{!images && (*/}
-      {/*  <div className={styles.errorMessage}>*/}
-      {/*    Before playing, please, select the <a href="/">initial options</a>*/}
-      {/*  </div>*/}
-      {/*)}*/}
-      {/*{images?.length > 0 && (*/}
-      {/*  <div className={styles.cardsWrap}>*/}
-      {/*    {images.map((card, index) => {*/}
-      {/*      return (*/}
-      {/*        <img*/}
-      {/*          onClick={selectCard}*/}
-      {/*          src={setImageCard(card, index)}*/}
-      {/*          className={styles.cardItem}*/}
-      {/*          key={index}*/}
-      {/*          alt={progress[index] ? card : "cardBack"}*/}
-      {/*        />*/}
-      {/*      );*/}
-      {/*    })}*/}
-      {/*  </div>*/}
-      {/*)}*/}
-    </div>
+    <>
+      {error && <div>Error: data don't load</div>}
+      {loading && <div>Loading data</div>}
+      {!error && !loading && (
+        <div className={styles.memoryCards}>
+          <div className={styles.heading}>So, {userName}</div>
+          <div className={styles.description}>
+            Your task is to find the same pairs of cards.
+          </div>
+          {!images && (
+            <div className={styles.errorMessage}>
+              Before playing, please, select the <a href="/">initial options</a>
+            </div>
+          )}
+          {images?.length > 0 && (
+            <div className={styles.cardsWrap}>
+              {images.map((card, index) => {
+                return (
+                  <img
+                    onClick={selectCard}
+                    src={setImageCard(card, index)}
+                    className={styles.cardItem}
+                    key={index}
+                    alt={progress[index] ? card : "cardBack"}
+                  />
+                );
+              })}
+            </div>
+          )}
+        </div>
+      )}
+    </>
   );
 };

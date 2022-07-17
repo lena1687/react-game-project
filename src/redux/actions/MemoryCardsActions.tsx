@@ -1,36 +1,26 @@
-import { ImagesState } from "Types/MemoryCardsType";
-import { fetchDataMemoryCards, getImages } from "Slices/MemoryCardsSlice";
+import { fetchDataMemoryCardsType, ImagesState } from "Types/MemoryCardsType";
 
-type resultType = { payload: ImagesState; type: string };
+export const getAndModifyImages = (
+  data: fetchDataMemoryCardsType[],
+  params: ImagesState["params"]
+) => {
+  if (data?.length && Object.keys(params).length > 0) {
+    const { theme, complexity } = params;
+    const cardDataTheme = data.find(({ value }) => value === theme);
+    const copyData = cardDataTheme?.images ? [...cardDataTheme.images] : [];
 
-export function getAndModifyImages(): resultType {
-  // const data = fetchDataMemoryCards();
-  // console.log("-> data", data);
-  //const data = getImages();
-  // const complexity = searchParams.get("complexity");
-  // const params = {
-  //   userName: searchParams.get("userName"),
-  //   themeGame: searchParams.get("theme"),
-  //   complexity: complexity ? parseInt(complexity) : 8,
-  // };
-  //
-  // const cardsData = JSON.parse(localStorage.getItem("setOfImages") || "[]");
-  // const cardDataTheme = cardsData.find(
-  //   ({ value }: { value: ThemesType }) => value === params.themeGame
-  // );
-  //
-  // function initSetOfCards() {
-  //   const uniqueCards = params.complexity / 2;
-  //   const randomAndSortArray = cardDataTheme.images
-  //     .sort(() => 0.5 - Math.random())
-  //     .slice(0, uniqueCards);
-  //   return [...randomAndSortArray, ...randomAndSortArray].sort(
-  //     () => Math.random() - 0.5
-  //   );
-  // }
-  //
-  // return setImages({
-  //   images: initSetOfCards(),
-  //   params,
-  // });
-}
+    const initSetOfCards = (): string[] => {
+      const uniqueCards = complexity ? complexity / 2 : undefined;
+      const randomAndSortArray = copyData
+        .sort(() => 0.5 - Math.random())
+        .slice(0, uniqueCards);
+      return [...randomAndSortArray, ...randomAndSortArray].sort(
+        () => Math.random() - 0.5
+      );
+    };
+
+    return {
+      images: initSetOfCards(),
+    };
+  }
+};
