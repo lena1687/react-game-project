@@ -13,13 +13,9 @@ import { setupStore } from "../../../redux/store";
 import { MemoryCards } from "Pages/MemoryCards/MemoryCards";
 
 describe("MemoryCards", () => {
-  beforeAll(() => jest.spyOn(window, "fetch"));
   beforeEach(() => {
     jest.clearAllMocks();
   });
-  jest.spyOn(Object.getPrototypeOf(window.localStorage), "setItem");
-  Object.setPrototypeOf(window.localStorage.setItem, jest.fn());
-
   global.fetch = jest.fn(() =>
     Promise.resolve({
       ok: true,
