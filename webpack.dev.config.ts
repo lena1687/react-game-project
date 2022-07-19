@@ -67,7 +67,7 @@ const config: Configuration = {
         },
       },
       {
-        test: /\.(jpe?g|png|gif)$/i,
+        test: /\.(jpe?g|jpg|png|gif)$/i,
         type: "asset/resource",
         generator: {
           filename: "./images/[name].[ext]",
@@ -77,6 +77,18 @@ const config: Configuration = {
   },
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
+    alias: {
+      Assets: path.resolve(__dirname, "src/assets/"),
+      Constants: path.resolve(__dirname, "src/constants/"),
+      Components: path.resolve(__dirname, "src/interface/components/"),
+      Composites: path.resolve(__dirname, "src/interface/composites/"),
+      Pages: path.resolve(__dirname, "src/interface/pages/"),
+      Structures: path.resolve(__dirname, "src/interface/structures/"),
+      Navigation: path.resolve(__dirname, "src/navigation/"),
+      Types: path.resolve(__dirname, "src/types/"),
+      Slices: path.resolve(__dirname, "src/redux/slices/"),
+      Actions: path.resolve(__dirname, "src/redux/actions/"),
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({

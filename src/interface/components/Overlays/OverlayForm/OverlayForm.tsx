@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./OverlayForm.sass";
 
 interface OverlayFormProps {
-  heading?: React.ReactNode;
+  heading: React.ReactNode;
   subHeading?: React.ReactNode;
   children?: React.ReactNode;
 }

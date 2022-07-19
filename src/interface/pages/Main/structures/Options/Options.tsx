@@ -2,16 +2,16 @@ import React from "react";
 import Themes from "./Themes";
 import styles from "./Options.sass";
 import { Form, Formik, FormikProps } from "formik";
-import { OptionsType } from "../../../../../types/OptionsType";
+import { OptionsType } from "Types/OptionsType";
 import * as Yup from "yup";
-import { COMPLEXITY_MEMORY_CARDS } from "../../../../../consts/common";
-import { Select } from "../../../../composites/forms/Select";
-import { TextField } from "../../../../composites/forms/TextField";
-import { Button } from "../../../../components/Button";
-import { OverlayForm } from "../../../../components/Overlays/OverlayForm";
-import { OverlayFormFields } from "../../../../components/Overlays/OverlayForm/OverlayFormFields";
-import { OverlayFormFieldsButtons } from "../../../../components/Overlays/OverlayForm/OverlayFormButtons";
+import { Select } from "Composites/forms/Select";
+import { TextField } from "Composites/forms/TextField";
+import { Button } from "Components/Button";
+import { OverlayForm } from "Components/Overlays/OverlayForm";
+import { OverlayFormFields } from "Components/Overlays/OverlayForm/OverlayFormFields";
+import { OverlayFormFieldsButtons } from "Components/Overlays/OverlayForm/OverlayFormButtons";
 import { useNavigate } from "react-router-dom";
+import { COMPLEXITY_MEMORY_CARDS } from "Constants/common";
 
 const EMPTY_VALUE = "";
 

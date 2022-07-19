@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { TextField } from "../interface/composites/forms/TextField";
+import { TextField } from "Composites/forms/TextField";
 import React from "react";
 import withFormik from "storybook-formik";
 

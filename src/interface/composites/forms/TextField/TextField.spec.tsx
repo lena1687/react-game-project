@@ -2,8 +2,8 @@ import { fireEvent, render, waitFor } from "@testing-library/react";
 import { Form, Formik, FormikProps } from "formik";
 import { TextField } from "./TextField";
 import React from "react";
-import { Button } from "../../../components/Button";
-import { OptionsType } from "../../../../types/OptionsType";
+import { Button } from "Components/Button";
+import { OptionsType } from "Types/OptionsType";
 
 describe("TextField", () => {
   it("render without errors", () => {

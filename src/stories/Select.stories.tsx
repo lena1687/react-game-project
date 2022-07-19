@@ -1,8 +1,8 @@
 import React from "react";
 import { ComponentStory, ComponentMeta } from "@storybook/react";
-import { Select } from "../interface/composites/forms/Select";
-import { COMPLEXITY_MEMORY_CARDS } from "../consts/common";
+import { Select } from "Composites/forms/Select";
 import withFormik from "storybook-formik";
+import { COMPLEXITY_MEMORY_CARDS } from "Constants/common";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {

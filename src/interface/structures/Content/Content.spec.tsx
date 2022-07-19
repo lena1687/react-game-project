@@ -26,15 +26,4 @@ describe("Content pages", () => {
     );
     expect(getByAltText(/not-found-page/i)).toBeInTheDocument();
   });
-
-  it("loading memory-cards page", async () => {
-    const history = createMemoryHistory();
-    history.push("/memory-cards");
-    const { getByText } = render(
-      <Router location={history.location} navigator={history}>
-        <Content />
-      </Router>
-    );
-    expect(getByText(/page MemoryCards/i)).toBeInTheDocument();
-  });
 });

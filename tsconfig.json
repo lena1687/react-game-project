@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
@@ -11,7 +12,19 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "paths": {
+      "Assets/*": ["src/assets/*"],
+      "Constants/*": ["src/constants/*"],
+      "Components/*": ["src/interface/components/*"],
+      "Composites/*": ["src/interface/composites/*"],
+      "Pages/*": ["src/interface/pages/*"],
+      "Structures/*": ["src/interface/structures/*"],
+      "Navigation/*": ["src/navigation/*"],
+      "Types/*": ["src/types/*"],
+      "Slices/*": ["src/redux/slices/*"],
+      "Actions/*": ["src/redux/actions/*"]
+    }
   },
   "include": ["src", "declarations.d.ts"]
 }

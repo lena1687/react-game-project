@@ -2,7 +2,7 @@ import React from "react";
 import classNames from "classnames";
 import styles from "./RadioGroup.sass";
 import { useField } from "formik";
-import { RadioGroupType } from "../../../../types/RadioGroupType";
+import { RadioGroupType } from "Types/RadioGroupType";
 
 interface Props {
   options: RadioGroupType[];

@@ -7,7 +7,7 @@ import {
   waitFor,
 } from "@testing-library/react";
 import { Form, Formik } from "formik";
-import { Button } from "../../../components/Button";
+import { Button } from "Components/Button";
 
 const SELECT_OPTIONS: SelectFieldOptions[] = [
   { text: "Значение 1", value: "option-1" },

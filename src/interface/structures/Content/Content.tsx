@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Content.sass";
-import { Navigation } from "../../../navigation/Navigation";
+import { Navigation } from "Navigation/Navigation";
 
 export const Content = (): JSX.Element => {
   return (

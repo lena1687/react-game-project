@@ -1,7 +1,7 @@
 import React from "react";
-import { RadioGroup } from "../interface/composites/forms/RadioGroup";
+import { RadioGroup } from "Composites/forms/RadioGroup";
 import { ComponentMeta, ComponentStory } from "@storybook/react";
-import themes from "../assets/data/themesMemoryCards.json";
+import themes from "Assets/data/themesMemoryCards.json";
 import withFormik from "storybook-formik";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
