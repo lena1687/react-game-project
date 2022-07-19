@@ -4,8 +4,9 @@ import {
   InitialLoadingState,
 } from "Types/MemoryCardsType";
 import "Assets/data/themesMemoryCards.json";
+import { RootState } from "../store";
 
-const initialState: InitialLoadingState = {
+export const initialState: InitialLoadingState = {
   error: false,
   loading: false,
   data: {
@@ -46,5 +47,7 @@ const MemoryCardsSlice = createSlice({
     });
   },
 });
+
+export const fetchMemoryCards = (state: RootState) => state.MemoryCards;
 
 export default MemoryCardsSlice.reducer;

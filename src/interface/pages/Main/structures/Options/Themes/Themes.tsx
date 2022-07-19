@@ -2,7 +2,6 @@ import React from "react";
 import { RadioGroup } from "Composites/forms/RadioGroup";
 import { RadioGroupType } from "Types/RadioGroupType";
 import "Assets/data/themesMemoryCards.json";
-import { ThemesType } from "Types/ThemesType";
 
 type PropsThemes = {
   error: Record<"message", string> | null;

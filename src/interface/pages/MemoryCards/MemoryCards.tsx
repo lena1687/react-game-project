@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styles from "./MemoryCards.sass";
-import { useSelector } from "react-redux";
-import { fetchDataMemoryCards } from "Slices/MemoryCardsSlice";
-import { useAppDispatch } from "../../../redux/store";
-import { InitialLoadingState } from "Types/MemoryCardsType";
+import {
+  fetchDataMemoryCards,
+  fetchMemoryCards,
+} from "Slices/MemoryCardsSlice";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { getAndModifyImages } from "Actions/MemoryCardsActions";
 import { useSearchParams } from "react-router-dom";
 
@@ -17,9 +18,7 @@ export const MemoryCards = (): JSX.Element => {
     complexity: complexityParam ? parseInt(complexityParam) : 8,
   };
   const { userName, theme, complexity } = params;
-  const { error, loading, data } = useSelector(
-    (state: Record<string, InitialLoadingState>) => state.MemoryCardsSlice
-  );
+  const { error, loading, data } = useAppSelector(fetchMemoryCards);
 
   useEffect(() => {
     dispatch(fetchDataMemoryCards());
@@ -37,7 +36,7 @@ export const MemoryCards = (): JSX.Element => {
     images: [""],
   };
   const { images } = dataCurrentGame;
-  console.log("-> images, params", images, userName, complexity, theme);
+  //console.log("-> images, params", images, userName, complexity, theme);
 
   //progress
   const progressInLocalStorage = JSON.parse(
@@ -71,7 +70,7 @@ export const MemoryCards = (): JSX.Element => {
           <div className={styles.description}>
             Your task is to find the same pairs of cards.
           </div>
-          {!images && (
+          {!images?.length && (
             <div className={styles.errorMessage}>
               Before playing, please, select the <a href="/">initial options</a>
             </div>
