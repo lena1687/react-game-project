@@ -32,7 +32,7 @@ describe("Main", () => {
   it("generalInfo", () => {
     const { container, getByText } = render(<Main />);
     //different methods of getting text
-    expect(getByText("Hi, my friends")).toBeInTheDocument();
+    expect(getByText("Hi, my friend")).toBeInTheDocument();
     expect(
       getNodeText(container.querySelector(".description") as HTMLElement)
     ).toContain(

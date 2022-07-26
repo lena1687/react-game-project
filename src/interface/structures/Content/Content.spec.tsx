@@ -13,7 +13,7 @@ describe("Content pages", () => {
         <Content />
       </Router>
     );
-    expect(getByText(/Hi, my friends/i)).toBeInTheDocument();
+    expect(getByText(/Hi, my friend/i)).toBeInTheDocument();
   });
 
   it("loading page - not Found", async () => {

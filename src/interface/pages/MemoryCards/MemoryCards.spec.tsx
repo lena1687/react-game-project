@@ -5,10 +5,7 @@ import { Content } from "Structures/Content";
 import React from "react";
 import { renderWithProviders } from "../../../utils/test-utils";
 import MOCK_DATA_THEMES from "Assets/data/themesMemoryCards.json";
-import MemoryCardsSlice, {
-  fetchDataMemoryCards,
-  initialState,
-} from "Slices/MemoryCardsSlice";
+import MemoryCardsSlice, { initialState } from "Slices/MemoryCardsSlice";
 import { setupStore } from "../../../redux/store";
 import { MemoryCards } from "Pages/MemoryCards/MemoryCards";
 
@@ -33,19 +30,6 @@ describe("MemoryCards", () => {
   it("Should initially set games to an empty object", () => {
     const state = setupStore().getState().MemoryCards;
     expect(state).toEqual(initialState);
-  });
-
-  it("Should be able to fetch the games list", async () => {
-    const result = await setupStore().dispatch(fetchDataMemoryCards());
-    const data = result.payload;
-    expect(result.type).toBe("memoryCards/getData/fulfilled");
-    expect(data).toEqual(MOCK_DATA_THEMES);
-    //subscribe - for update
-    setupStore().subscribe(() => {
-      const state = setupStore().getState().MemoryCards;
-      console.log("-> state", state);
-      expect(state).toEqual({ MOCK_DATA_THEMES, error: false, loading: false });
-    });
   });
 
   it("error loading  game-page", async () => {

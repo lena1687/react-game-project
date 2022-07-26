@@ -1,9 +1,14 @@
 import { ThemesType } from "Types/ThemesType";
 
-export interface InitialLoadingState {
-  data: fetchDataMemoryCardsType;
+export interface DataMemoryCardsState {
   error: boolean;
   loading: boolean;
+  progress: boolean[];
+  images: string[];
+  clicked: number | null;
+  prevClicked: number | null;
+  clickProcess: boolean;
+  params: ImagesState["params"];
 }
 
 export interface fetchDataMemoryCardsType {

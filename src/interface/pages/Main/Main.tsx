@@ -12,7 +12,7 @@ export const Main = (): JSX.Element => {
 
   return (
     <>
-      <GeneralInfo heading="Hi, my friends" />
+      <GeneralInfo heading="Hi, my friend" />
       {!isVisibleOptions && (
         <Button
           size="large"
