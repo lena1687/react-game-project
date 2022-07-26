@@ -123,6 +123,7 @@ function getStorageKey({
 
 export const fetchMemoryCards = (state: RootState): DataMemoryCardsState =>
   state.MemoryCards;
+
 export const isSecondCardClicked = (state: DataMemoryCardsState): boolean =>
   state.clicked !== null && state.prevClicked !== null;
 
