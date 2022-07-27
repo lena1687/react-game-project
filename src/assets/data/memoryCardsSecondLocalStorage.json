@@ -1,0 +1,20 @@
+{
+  "images": [
+    "animalTheme/animal-5.jpg",
+    "animalTheme/animal-7.jpg",
+    "animalTheme/animal-2.jpg",
+    "animalTheme/animal-3.jpg",
+    "animalTheme/animal-5.jpg",
+    "animalTheme/animal-3.jpg",
+    "animalTheme/animal-7.jpg",
+    "animalTheme/animal-2.jpg"
+  ],
+  "progress": [false, true, false, false, false, false, true, false],
+  "clicked": null,
+  "prevClicked": null,
+  "params": {
+    "userName": "Andy",
+    "theme": "animalTheme",
+    "complexity": 8
+  }
+}

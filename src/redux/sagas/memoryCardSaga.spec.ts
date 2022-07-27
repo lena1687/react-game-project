@@ -7,7 +7,7 @@ import {
 } from "Slices/MemoryCardsSlice";
 
 describe("Sagas of memory cards", () => {
-  it("dataMemoryCard - click first", () => {
+  it("Page MemoryCard - click first on the card", () => {
     const state = { ...initialState, clicked: 3, prevClicked: null };
     return expectSaga(dataMemoryCardClickSaga)
       .withState({
@@ -17,7 +17,7 @@ describe("Sagas of memory cards", () => {
       .put({ type: dataMemoryCardsProcess.type })
       .run();
   });
-  it("dataMemoryCard - click second", () => {
+  it("Page MemoryCard - click second on the card", () => {
     const state = { ...initialState, clicked: 4, prevClicked: 1 };
     return expectSaga(dataMemoryCardClickSaga)
       .withState({

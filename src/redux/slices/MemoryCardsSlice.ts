@@ -94,15 +94,13 @@ const MemoryCardsSlice = createSlice({
       state.clickProcess = false;
 
       if (isSecondCardClicked(state)) {
-        const prevIndex = state.prevClicked as number;
-        const newIndex = state.clicked as number;
+        // if clicked to another card
+        if (isInvalidPair(state)) {
+          state.progress[state.prevClicked] = false;
+          state.progress[state.clicked] = false;
+        }
         state.clicked = null;
         state.prevClicked = null;
-        // if clicked to another card
-        if (state.images[prevIndex] !== state.images[newIndex]) {
-          state.progress[prevIndex] = false;
-          state.progress[newIndex] = false;
-        }
       }
       localStorage.setItem(getStorageKey(state.params), JSON.stringify(state));
     });
@@ -126,5 +124,12 @@ export const fetchMemoryCards = (state: RootState): DataMemoryCardsState =>
 
 export const isSecondCardClicked = (state: DataMemoryCardsState): boolean =>
   state.clicked !== null && state.prevClicked !== null;
+
+export const isInvalidPair = (
+  state: DataMemoryCardsState
+): state is DataMemoryCardsState & { clicked: number; prevClicked: number } =>
+  state.clicked !== null &&
+  state.prevClicked !== null &&
+  state.images[state.clicked] !== state.images[state.prevClicked];
 
 export default MemoryCardsSlice.reducer;

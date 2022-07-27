@@ -3,14 +3,14 @@ import {
   dataMemoryCardClick,
   dataMemoryCardsProcess,
   fetchMemoryCards,
-  isSecondCardClicked,
+  isInvalidPair,
 } from "Slices/MemoryCardsSlice";
 import { DataMemoryCardsState } from "Types/MemoryCardsType";
 
 export function* dataMemoryCardClickSaga(): Generator {
   yield takeEvery(dataMemoryCardClick, function* () {
     const state: DataMemoryCardsState = yield select(fetchMemoryCards);
-    if (isSecondCardClicked(state)) {
+    if (isInvalidPair(state)) {
       yield delay(500);
     }
     yield put({ type: dataMemoryCardsProcess.type });

@@ -1,17 +1,29 @@
 import { createMemoryHistory } from "history";
-import { screen, waitFor } from "@testing-library/react";
+import { act, fireEvent, screen, waitFor } from "@testing-library/react";
 import { Router } from "react-router-dom";
 import { Content } from "Structures/Content";
 import React from "react";
-import { renderWithProviders } from "../../../utils/test-utils";
+import {
+  mockLocalStorage,
+  renderWithProviders,
+} from "../../../utils/test-utils";
 import MOCK_DATA_THEMES from "Assets/data/themesMemoryCards.json";
 import MemoryCardsSlice, { initialState } from "Slices/MemoryCardsSlice";
 import { setupStore } from "../../../redux/store";
 import { MemoryCards } from "Pages/MemoryCards/MemoryCards";
+import MOCK_DATA_INITIAL_LOCAL_STORAGE from "Assets/data/memoryCardsInitialLocalStorage.json";
+import MOCK_DATA_SECOND_LOCAL_STORAGE from "Assets/data/memoryCardsSecondLocalStorage.json";
+import MOCK_DATA_FINALLY_LOCAL_STORAGE from "Assets/data/memoryCardsFinalyLocalStorage.json";
+
+const mockStorage = mockLocalStorage();
 
 describe("MemoryCards", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    Object.defineProperty(window, "location", {
+      configurable: true,
+      value: { reload: jest.fn() },
+    });
   });
   global.fetch = jest.fn(() =>
     Promise.resolve({
@@ -21,7 +33,7 @@ describe("MemoryCards", () => {
     })
   ) as jest.Mock;
 
-  it("should return the initial state", () => {
+  it("Should return the initial state", () => {
     expect(MemoryCardsSlice(undefined, { type: undefined })).toEqual(
       initialState
     );
@@ -32,7 +44,7 @@ describe("MemoryCards", () => {
     expect(state).toEqual(initialState);
   });
 
-  it("error loading  game-page", async () => {
+  it("Error loading  game-page", async () => {
     const history = createMemoryHistory();
     history.push("/memory-cards?userName=Andy&complexity=8&theme=anima");
     const { container } = renderWithProviders(
@@ -46,7 +58,13 @@ describe("MemoryCards", () => {
     expect(container.getElementsByClassName("cardsWrap").length).toBe(0);
   });
 
-  it("initial success loading game-page", async () => {
+  it("Initial success loading game-page - without progress", async () => {
+    const nameStorage = "dataMemoryCards-8-animalTheme-Andy";
+    const mockMemoryCardsInitialLocalStorage = JSON.stringify(
+      MOCK_DATA_INITIAL_LOCAL_STORAGE
+    );
+    mockStorage.set(nameStorage, mockMemoryCardsInitialLocalStorage);
+
     const history = createMemoryHistory();
     history.push("/memory-cards?userName=Andy&complexity=8&theme=animalTheme");
     const { container } = renderWithProviders(
@@ -59,11 +77,20 @@ describe("MemoryCards", () => {
     });
     expect(container.getElementsByClassName("cardsWrap").length).toBe(1);
     expect(screen.getByText("So, Andy")).toBeInTheDocument();
-    const cardItem = container.getElementsByClassName("cardItem");
-    expect(cardItem).toHaveLength(8);
+    const images = container.querySelectorAll(".cardItem");
+    expect(images).toHaveLength(8);
+    MOCK_DATA_INITIAL_LOCAL_STORAGE.progress.forEach((card, idx) => {
+      expect(images[idx].getAttribute("alt")).toMatch(/cardBack/);
+    });
   });
 
-  it("success loading game-page without progress", async () => {
+  it("Initial success loading game-page - with progress", async () => {
+    const nameStorage = "dataMemoryCards-8-animalTheme-Andy";
+    const mockMemoryCardsSecondLocalStorage = JSON.stringify(
+      MOCK_DATA_SECOND_LOCAL_STORAGE
+    );
+    mockStorage.set(nameStorage, mockMemoryCardsSecondLocalStorage);
+
     const history = createMemoryHistory();
     history.push("/memory-cards?userName=Andy&complexity=8&theme=animalTheme");
     const { container } = renderWithProviders(
@@ -71,42 +98,120 @@ describe("MemoryCards", () => {
         <Content />
       </Router>
     );
-    expect(window.localStorage.progress).toBe(undefined);
-    const images = container.querySelectorAll(".cardItem");
-    const progress = window.localStorage.progress
-      ? JSON.parse(window.localStorage.progress)
-      : [];
-    images.forEach((card, index) => {
-      const pattern = progress[index] ? /^animal-([1-8]).jpg/ : /cardBack/;
-      expect(card.getAttribute("alt")).toMatch(pattern);
+    await waitFor(() => {
+      expect(container.getElementsByClassName("errorMessage").length).toBe(0);
     });
+    expect(container.getElementsByClassName("cardsWrap").length).toBe(1);
+    expect(screen.getByText("So, Andy")).toBeInTheDocument();
+    const images = container.querySelectorAll(".cardItem");
+    expect(images.length).toBe(8);
+    const pattern = /^animalTheme\/animal-([1-8]).jpg/;
+    MOCK_DATA_SECOND_LOCAL_STORAGE.progress.forEach((value, idx) => {
+      expect(images[idx].getAttribute("alt")).toMatch(
+        value ? pattern : /cardBack/
+      );
+    });
+
+    // if clicked to another card with success result
+    act(() => {
+      fireEvent.click(images[0]);
+    });
+    await waitFor(() => {
+      expect(images[0].getAttribute("alt")).toMatch(pattern);
+    });
+    fireEvent.click(images[4]);
+    await waitFor(() => {
+      expect(images[4].getAttribute("alt")).toMatch(pattern);
+    });
+    const localStorageProgress = JSON.parse(
+      mockStorage.get(nameStorage)!
+    )!.progress;
+    expect(localStorageProgress[0]).toBeTruthy();
+    expect(localStorageProgress[4]).toBeTruthy();
+
+    // // if clicked to another card with error result
+    fireEvent.click(images[2]);
+    await waitFor(() => {
+      expect(images[2].getAttribute("alt")).toMatch(pattern);
+    });
+    fireEvent.click(images[3]);
+    await waitFor(() => {
+      expect(images[2].getAttribute("alt")).toMatch(/cardBack/);
+    });
+    expect(images[3].getAttribute("alt")).toMatch(/cardBack/);
+    expect(localStorageProgress[2]).toBeFalsy();
+    expect(localStorageProgress[3]).toBeFalsy();
+
+    //// if clicked to the same card second time
+    fireEvent.click(images[7]);
+    await waitFor(() => {
+      expect(images[7].getAttribute("alt")).toMatch(pattern);
+    });
+    fireEvent.click(images[7]);
+    await waitFor(() => {
+      expect(images[7].getAttribute("alt")).toMatch(/cardBack/);
+    });
+    expect(localStorageProgress[7]).toBeFalsy();
   });
 
-  it("success loading game-page with progress", async () => {
+  it("Final game-page", async () => {
+    const nameStorage = "dataMemoryCards-8-animalTheme-Andy";
+    const mockMemoryCardsFinallyLocalStorage = JSON.stringify(
+      MOCK_DATA_FINALLY_LOCAL_STORAGE
+    );
+    mockStorage.set(nameStorage, mockMemoryCardsFinallyLocalStorage);
+
     const history = createMemoryHistory();
     history.push("/memory-cards?userName=Andy&complexity=8&theme=animalTheme");
-    window.localStorage.setItem(
-      "setOfImages",
-      '[{"value":"animalTheme","images":["animal-1.jpg","animal-2.jpg","animal-3.jpg","animal-4.jpg","animal-5.jpg","animal-6.jpg","animal-7.jpg","animal-8.jpg"]},{"value":"superHeroesTheme","images":["hero-1.jpg","hero-2.jpg","hero-3.jpg","hero-4.jpg","hero-5.jpg","hero-6.jpg","hero-7.jpg","hero-8.jpg"]}]'
-    );
-    window.localStorage.setItem(
-      "progress",
-      JSON.stringify([false, true, false, true, false, false, false, false])
-    );
-    const { container } = renderWithProviders(
+    const { container, getByText } = renderWithProviders(
       <Router location={history.location} navigator={history}>
         <Content />
       </Router>
     );
-    expect(window.localStorage.setOfImages).not.toBe(undefined);
-    expect(window.localStorage.progress).not.toBe(undefined);
-    const images = container.querySelectorAll(".cardItem");
-    const progress = window.localStorage.progress
-      ? JSON.parse(window.localStorage.progress)
-      : [];
-    images.forEach((card, index) => {
-      const pattern = progress[index] ? /^animal-([1-8]).jpg/ : /cardBack/;
-      expect(card.getAttribute("alt")).toMatch(pattern);
+    await waitFor(() => {
+      expect(container.getElementsByClassName("errorMessage").length).toBe(0);
     });
+    expect(container.getElementsByClassName("cardsWrap").length).toBe(1);
+    expect(screen.getByText("So, Andy")).toBeInTheDocument();
+    const images = container.querySelectorAll(".cardItem");
+    const pattern = /^animalTheme\/animal-([1-8]).jpg/;
+    act(() => {
+      fireEvent.click(images[1]);
+    });
+    await waitFor(() => {
+      expect(images[1].getAttribute("alt")).toMatch(pattern);
+    });
+    const localStorageProgress = JSON.parse(
+      mockStorage.get(nameStorage)!
+    )!.progress;
+    await waitFor(() => {
+      expect(localStorageProgress[1]).toBeTruthy();
+    });
+    expect(getByText("Congratulations!!!")).toBeInTheDocument();
+  });
+
+  it("Reset game-page", async () => {
+    const nameStorage = "dataMemoryCards-8-animalTheme-Andy";
+    const mockMemoryCardsSecondLocalStorage = JSON.stringify(
+      MOCK_DATA_SECOND_LOCAL_STORAGE
+    );
+    mockStorage.set(nameStorage, mockMemoryCardsSecondLocalStorage);
+
+    const history = createMemoryHistory();
+    history.push("/memory-cards?userName=Andy&complexity=8&theme=animalTheme");
+    const { container, getByText } = renderWithProviders(
+      <Router location={history.location} navigator={history}>
+        <Content />
+      </Router>
+    );
+    await waitFor(() => {
+      expect(container.getElementsByClassName("errorMessage").length).toBe(0);
+    });
+    expect(container.getElementsByClassName("cardsWrap").length).toBe(1);
+    act(() => {
+      fireEvent.click(getByText("Restart a game"));
+    });
+    expect(mockStorage.has(nameStorage)).toBe(false);
+    expect(window.location.reload).toHaveBeenCalled();
   });
 });
