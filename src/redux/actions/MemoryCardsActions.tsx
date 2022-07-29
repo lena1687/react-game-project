@@ -7,7 +7,9 @@ export const getAndModifyImages = (
   if (data?.length && Object.keys(params).length > 0) {
     const { theme, complexity } = params;
     const cardDataTheme = data.find(({ value }) => value === theme);
-    const copyData = cardDataTheme?.images ? [...cardDataTheme.images] : [];
+    const copyData = cardDataTheme?.images
+      ? [...cardDataTheme.images.map((card) => `${theme}/${card}`)]
+      : [];
 
     const initSetOfCards = (): string[] => {
       const uniqueCards = complexity ? complexity / 2 : undefined;
@@ -19,8 +21,7 @@ export const getAndModifyImages = (
       );
     };
 
-    return {
-      images: initSetOfCards(),
-    };
+    return initSetOfCards();
   }
+  return [];
 };
